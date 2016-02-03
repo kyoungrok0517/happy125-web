@@ -68,6 +68,14 @@
 
     <!-- My -->
     <script src="./js/index.js"></script>
+    <script>
+        // var button = document.createElement('button');
+        // var textNode = document.createTextNode('Click Me!');
+        // button.appendChild(textNode);
+        // button.className = 'mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon';
+        // componentHandler.upgradeElement(button);
+        // document.getElementById('container').appendChild(button);
+    </script>
 </head>
 
 <body ng-app="app" class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
@@ -90,31 +98,40 @@
             </div>
         </header>
         <main class="mdl-layout__content">
-            <div>
-                {{ posts | json }}
-            </div>
-
             <div class="mdl-layout__tab-panel is-active" id="overview">
                 <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-                    <header class="section__play-btn mdl-cell mdl-cell--3-col-desktop mdl-cell--2-col-tablet mdl-cell--4-col-phone mdl-color--teal-100 mdl-color-text--white">
-                        <i class="material-icons">play_circle_filled</i>
-                    </header>
-                    <div class="mdl-card mdl-cell mdl-cell--9-col-desktop mdl-cell--6-col-tablet mdl-cell--4-col-phone">
+                    <div class="mdl-card mdl-cell mdl-cell--12-col">
                         <div class="mdl-card__supporting-text">
-                            <h4>Features</h4> Dolore ex deserunt aute fugiat aute nulla ea sunt aliqua nisi cupidatat eu. Nostrud in laboris
-                            labore nisi amet do dolor eu fugiat consectetur elit cillum esse.
+                            <h4>우측 '더보기' 메뉴가 작동하는 버전</h4> Nov 27, 2015 4:30:09 PM
                         </div>
                         <div class="mdl-card__actions">
-                            <a href="#" class="mdl-button">Read our features</a>
+                            Shared by <a href="#" class="mdl-button">kyoungrok.jang@gmail.com</a>
                         </div>
                     </div>
-                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn1">
+                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn1" dynamic-more-button-directive>
                         <i class="material-icons">more_vert</i>
                     </button>
                     <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn1">
-                        <li class="mdl-menu__item">Lorem</li>
-                        <li class="mdl-menu__item" disabled>Ipsum</li>
-                        <li class="mdl-menu__item">Dolor</li>
+                        <li class="mdl-menu__item">Share on Facebook</li>
+                        <li class="mdl-menu__item" disabled>Delete</li>
+                    </ul>
+                </section>
+
+                <section ng-repeat="post in posts" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
+                    <div class="mdl-card mdl-cell mdl-cell--12-col">
+                        <div class="mdl-card__supporting-text">
+                            <h4>{{ post.content }}</h4> {{ post.id | date : 'medium' }}
+                        </div>
+                        <div class="mdl-card__actions">
+                            Shared by <a href="#" class="mdl-button">{{ post.email }}</a>
+                        </div>
+                    </div>
+                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn1" dynamic-more-button-directive>
+                        <i class="material-icons">more_vert</i>
+                    </button>
+                    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn1">
+                        <li class="mdl-menu__item">Share on Facebook</li>
+                        <li class="mdl-menu__item" disabled>Delete</li>
                     </ul>
                 </section>
 
