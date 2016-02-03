@@ -1,0 +1,14 @@
+{
+  "name": "happy125-web",
+  "version": "1.0.0",
+  "description": "Web client for happy125",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "material-design-lite": "^1.1.0"
+  }
+}
