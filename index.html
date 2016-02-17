@@ -78,10 +78,9 @@
             <div class="mdl-layout--large-screen-only mdl-layout__header-row">
                 <h3>행복나눔 125</h3>
             </div>
-            <div class="mdl-layout--large-screen-only mdl-layout__header-row">
-            </div>
+            
             <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
-                <a href="#overview" class="mdl-layout__tab is-active">Main</a>
+                <a href="#all" class="mdl-layout__tab is-active">All</a>
                 <a href="#about" class="mdl-layout__tab">About</a>
                 <button class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored mdl-shadow--4dp mdl-color--accent"
                 id="add">
@@ -91,7 +90,7 @@
             </div>
         </header>
         <main class="mdl-layout__content">
-            <div class="mdl-layout__tab-panel is-active" id="overview">
+            <div class="mdl-layout__tab-panel is-active" id="all">
                 <section ng-repeat="post in posts" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                     <div class="mdl-card mdl-cell mdl-cell--12-col">
                         <div class="mdl-card__supporting-text">
@@ -115,48 +114,11 @@
                     </ul>-->
                 </section>
             </div>
+            <div class="mdl-layout__tab-panel" id="about">
+                
+
+            </div>
             <footer class="mdl-mega-footer">
-                <!--<div class="mdl-mega-footer--middle-section">
-                    <div class="mdl-mega-footer--drop-down-section">
-                        <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
-                        <h1 class="mdl-mega-footer--heading">Features</h1>
-                        <ul class="mdl-mega-footer--link-list">
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Terms</a></li>
-                            <li><a href="#">Partners</a></li>
-                            <li><a href="#">Updates</a></li>
-                        </ul>
-                    </div>
-                    <div class="mdl-mega-footer--drop-down-section">
-                        <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
-                        <h1 class="mdl-mega-footer--heading">Details</h1>
-                        <ul class="mdl-mega-footer--link-list">
-                            <li><a href="#">Spec</a></li>
-                            <li><a href="#">Tools</a></li>
-                            <li><a href="#">Resources</a></li>
-                        </ul>
-                    </div>
-                    <div class="mdl-mega-footer--drop-down-section">
-                        <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
-                        <h1 class="mdl-mega-footer--heading">Technology</h1>
-                        <ul class="mdl-mega-footer--link-list">
-                            <li><a href="#">How it works</a></li>
-                            <li><a href="#">Patterns</a></li>
-                            <li><a href="#">Usage</a></li>
-                            <li><a href="#">Products</a></li>
-                            <li><a href="#">Contracts</a></li>
-                        </ul>
-                    </div>
-                    <div class="mdl-mega-footer--drop-down-section">
-                        <input class="mdl-mega-footer--heading-checkbox" type="checkbox" checked>
-                        <h1 class="mdl-mega-footer--heading">FAQ</h1>
-                        <ul class="mdl-mega-footer--link-list">
-                            <li><a href="#">Questions</a></li>
-                            <li><a href="#">Answers</a></li>
-                            <li><a href="#">Contact us</a></li>
-                        </ul>
-                    </div>
-                </div>-->
                 <div class="mdl-mega-footer--bottom-section">
                     <div class="mdl-logo">
                         More Information
