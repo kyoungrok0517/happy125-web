@@ -100,24 +100,6 @@
         </header>
         <main class="mdl-layout__content">
             <div class="mdl-layout__tab-panel is-active" id="overview">
-                <section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
-                    <div class="mdl-card mdl-cell mdl-cell--12-col">
-                        <div class="mdl-card__supporting-text">
-                            <h4>우측 '더보기' 메뉴가 작동하는 버전</h4> Nov 27, 2015 4:30:09 PM
-                        </div>
-                        <div class="mdl-card__actions">
-                            Shared by <a href="#" class="mdl-button">kyoungrok.jang@gmail.com</a>
-                        </div>
-                    </div>
-                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn1" dynamic-more-button-directive>
-                        <i class="material-icons">more_vert</i>
-                    </button>
-                    <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn1">
-                        <li class="mdl-menu__item">Share on Facebook</li>
-                        <li class="mdl-menu__item" disabled>Delete</li>
-                    </ul>
-                </section>
-
                 <section ng-repeat="post in posts" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                     <div class="mdl-card mdl-cell mdl-cell--12-col">
                         <div class="mdl-card__supporting-text">
@@ -127,13 +109,13 @@
                             Shared by <a href="#" class="mdl-button">{{ post.email }}</a>
                         </div>
                     </div>
-                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn1" dynamic-more-button-directive>
+                    <!--<button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="btn1" dynamic-more-button-directive>
                         <i class="material-icons">more_vert</i>
                     </button>
                     <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="btn1">
                         <li class="mdl-menu__item">Share on Facebook</li>
                         <li class="mdl-menu__item" disabled>Delete</li>
-                    </ul>
+                    </ul>-->
                 </section>
 
                 <!--<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
@@ -157,7 +139,7 @@
                         <li class="mdl-menu__item">Dolor</li>
                     </ul>
                 </section>-->
-                <section class="section--footer mdl-color--white mdl-grid">
+                <!--<section class="section--footer mdl-color--white mdl-grid">
                     <div class="section__circle-container mdl-cell mdl-cell--2-col mdl-cell--1-col-phone">
                         <div class="section__circle-container__circle mdl-color--accent section__circle--big"></div>
                     </div>
@@ -172,7 +154,7 @@
                         <h5>Lorem ipsum dolor sit amet</h5> Qui sint ut et qui nisi cupidatat. Reprehenderit nostrud proident officia exercitation anim et pariatur
                         ex.
                     </div>
-                </section>
+                </section>-->
             </div>
             <footer class="mdl-mega-footer">
                 <div class="mdl-mega-footer--middle-section">
