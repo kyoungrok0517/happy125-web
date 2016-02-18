@@ -45,11 +45,11 @@
     <link rel="canonical" href="http://www.example.com/">
     -->
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=ko">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.0/material.deep_orange-blue.min.css" />
     <!--<link rel="stylesheet" href="https://code.getmdl.io/1.1.0/material.deep_purple-pink.min.css">-->
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <style>
 
     </style>
@@ -72,13 +72,14 @@
 
 <body ng-app="app" class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
     <div ng-controller="PostCtrl" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <!-- Header -->
         <header class="mdl-layout__header mdl-layout__header--scroll mdl-color--primary">
             <div class="mdl-layout--large-screen-only mdl-layout__header-row">
             </div>
             <div class="mdl-layout--large-screen-only mdl-layout__header-row">
                 <h3>행복나눔 125</h3>
             </div>
-            
+
             <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
                 <a href="#all" class="mdl-layout__tab is-active">All</a>
                 <a href="#about" class="mdl-layout__tab">About</a>
@@ -89,15 +90,21 @@
                 </button>
             </div>
         </header>
+        
+        <!-- Content -->
         <main class="mdl-layout__content">
             <div class="mdl-layout__tab-panel is-active" id="all">
                 <section ng-repeat="post in posts" class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp">
                     <div class="mdl-card mdl-cell mdl-cell--12-col">
                         <div class="mdl-card__supporting-text">
-                            <h4>{{ post.content }}</h4> {{ post.id | date : 'medium' }}
+                            <h4>{{ post.content }}</h4>
+                            <h6>{{ post.id | date : 'medium' }}</h6>
+                            <h6>Shared by {{ post.email }}</h6>
                         </div>
                         <div class="mdl-card__actions">
-                            Shared by <a href="#" class="mdl-button">{{ post.email }}</a>
+                            <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent">
+                                <i class="material-icons">favorite</i>
+                            </button>
                         </div>
                         <!--<div class="mdl-card__menu">
                             <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
@@ -115,7 +122,24 @@
                 </section>
             </div>
             <div class="mdl-layout__tab-panel" id="about">
-                
+                <div class="demo-card-wide mdl-card mdl-shadow--2dp">
+                    <div class="mdl-card__title">
+                        <h2 class="mdl-card__title-text">Welcome</h2>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris sagittis pellentesque lacus eleifend lacinia...
+                    </div>
+                    <div class="mdl-card__actions mdl-card--border">
+                        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+      Get Started
+    </a>
+                    </div>
+                    <div class="mdl-card__menu">
+                        <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                            <i class="material-icons">share</i>
+                        </button>
+                    </div>
+                </div>
 
             </div>
             <footer class="mdl-mega-footer">
