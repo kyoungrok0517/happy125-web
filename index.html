@@ -22,7 +22,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>행복나눔 125</title>
+    <title>kaisTogether</title>
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -60,6 +60,23 @@
         .mdl-card__actions > .mdl-button--icon {
             margin-right: 3px;
             margin-left: 3px;
+        }
+        /* material design icons */
+        
+        .material-icons.md-18 {
+            font-size: 18px;
+        }
+        
+        .material-icons.md-24 {
+            font-size: 24px;
+        }
+        
+        .material-icons.md-36 {
+            font-size: 36px;
+        }
+        
+        .material-icons.md-48 {
+            font-size: 48px;
         }
     </style>
 
@@ -103,9 +120,11 @@
 
         <!-- Content -->
         <main class="mdl-layout__content">
+
+            <!-- Posts -->
             <div class="mdl-layout__tab-panel is-active" id="posts">
                 <div class="mdl-grid">
-                    <div ng-repeat="post in posts" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col">
+                    <div ng-repeat="post in posts" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-cell--3-offset">
                         <div class="mdl-card__supporting-text">
                             <h4>{{ post.content }}</h4>
                             <h6>{{ post.id | date : 'medium' }}</h6>
@@ -114,21 +133,41 @@
                         <div class="mdl-card__actions mdl-card--border">
                             <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Read More</a>
                             <div class="mdl-layout-spacer"></div>
-                            <button class="mdl-button mdl-button--icon mdl-button--colored"><i class="material-icons">favorite</i></button>
-                            <button class="mdl-button mdl-button--icon mdl-button--colored"><i class="material-icons">share</i></button>
+                            <button class="mdl-button mdl-button--icon mdl-button--colored"><i class="material-icons md-24">favorite</i></button>
+                            <button class="mdl-button mdl-button--icon mdl-button--colored"><i class="material-icons md-24">share</i></button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- About -->
             <div class="mdl-layout__tab-panel" id="about">
-                <div class="mdl-grid">
-                    <div class="mdl-cell mdl-cell--2-col">CS 1</div>
-                    <div class="mdl-cell mdl-cell--2-col">CS 1</div>
-                    <div class="mdl-cell mdl-cell--2-col">CS 1</div>
-                    <div class="mdl-cell mdl-cell--2-col">CS 1</div>
-                    <div class="mdl-cell mdl-cell--2-col">CS 1</div>
-                    <div class="mdl-cell mdl-cell--2-col">CS 1</div>
-                </div>
+                <button id="show-dialog" type="button" class="mdl-button">Show Dialog</button>
+                <dialog class="mdl-dialog">
+                    <h4 class="mdl-dialog__title">Allow data collection?</h4>
+                    <div class="mdl-dialog__content">
+                        <p>
+                            Allowing us to collect data will let us get you the information you want faster.
+                            <p>
+                    </div>
+                    <div class="mdl-dialog__actions">
+                        <button type="button" class="mdl-button">Agree</button>
+                        <button type="button" class="mdl-button close">Disagree</button>
+                    </div>
+                </dialog>
+                <script>
+                    var dialog = document.querySelector('dialog');
+                    var showDialogButton = document.querySelector('#show-dialog');
+                    if (! dialog.showModal) {
+                    dialogPolyfill.registerDialog(dialog);
+                    }
+                    showDialogButton.addEventListener('click', function() {
+                    dialog.showModal();
+                    });
+                    dialog.querySelector('.close').addEventListener('click', function() {
+                    dialog.close();
+                    });
+                </script>
             </div>
             <footer class="mdl-mega-footer">
                 <div class="mdl-mega-footer--middle-section">
