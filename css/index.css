@@ -31,3 +31,9 @@
        -moz-box-sizing: border-box;
             box-sizing: border-box;
 }
+
+#loginForm, #registerForm {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+} 
