@@ -10,17 +10,19 @@ angular.module("app", ["firebase"])
 
         $scope.login = function ($event) {
             console.log($event);
+            var email = $scope.user.email;
+            var password = $scope.user.password;
             
-            // _ref.authWithPassword({
-            //     email: email,
-            //     password: password
-            // }, function(error, authData) {
-            //     if (error) {
-            //         console.log("Error:", error);
-            //     } else {
-            //         console.table(authData)
-            //     }
-            // });
+            _ref.authWithPassword({
+                email: email,
+                password: password
+            }, function(error, authData) {
+                if (error) {
+                    console.log("Error:", error);
+                } else {
+                    console.table(authData)
+                }
+            });
         }
     })
 
