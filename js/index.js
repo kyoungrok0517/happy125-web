@@ -9,18 +9,47 @@ angular.module("app", ["firebase"])
         var _ref = new Firebase("https://happy125.firebaseio.com");
 
         $scope.login = function ($event) {
-            console.log($event);
             var email = $scope.user.email;
             var password = $scope.user.password;
-            
+
             _ref.authWithPassword({
                 email: email,
                 password: password
-            }, function(error, authData) {
+            }, function (error, authData) {
                 if (error) {
                     console.log("Error:", error);
                 } else {
-                    console.table(authData)
+                    console.table(authData);
+                }
+            });
+        }
+
+        $scope.loginWithFacebook = function () {
+            _ref.authWithOAuthRedirect("facebook", function (error, authData) {
+                if (error) {
+                    console.log("Login Failed!", error);
+                } else {
+                    console.log("Authenticated successfully with payload:", authData);
+                }
+            }, { 'scope': 'email'});
+        }
+    })
+
+    .controller("RegisterCtrl", function ($scope) {
+        var _ref = new Firebase("https://happy125.firebaseio.com");
+
+        $scope.register = function ($event) {
+            var email = $scope.user.email;
+            var password = $scope.user.password;
+
+            _ref.createUser({
+                email: email,
+                password: password
+            }, function (error, userData) {
+                if (error) {
+                    console.log("Error:", error);
+                } else {
+                    console.table(userData);
                 }
             });
         }
