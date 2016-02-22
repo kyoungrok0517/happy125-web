@@ -1,4 +1,18 @@
-angular.module("app", ["firebase"])
+/* global Firebase */
+angular.module("app", ["firebase", "ngStorage"])
+
+    .run(function ($rootScope, $localStorage, $sessionStorage) {
+        $rootScope.$storage = $localStorage;
+
+        var ref = new Firebase("https://happy125.firebaseio.com");
+        ref.onAuth(function (authData) {
+            if (authData) {
+                console.log("Authenticated with uid:", authData.uid);
+            } else {
+                console.log("Client unauthenticated.")
+            }
+        });
+    })
 
     .controller("PostCtrl", function ($scope, $firebaseArray) {
         var _postsRef = new Firebase("https://happy125.firebaseio.com/posts");
@@ -20,8 +34,14 @@ angular.module("app", ["firebase"])
                     console.log("Error:", error);
                 } else {
                     console.table(authData);
+
+                    $scope.$storage.authData = authData;
                 }
             });
+        }
+
+        $scope.logout = function () {
+            _ref.unauth();
         }
 
         $scope.loginWithFacebook = function () {
@@ -31,7 +51,7 @@ angular.module("app", ["firebase"])
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
                 }
-            }, { 'scope': 'email'});
+            }, { 'scope': 'email' });
         }
     })
 
