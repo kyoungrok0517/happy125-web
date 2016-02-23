@@ -10,12 +10,10 @@ angular.module("app", ["firebase", "ngStorage"])
         ref.onAuth(function (authData) {
             if (authData) {
                 $rootScope.authData = authData;
-                $rootScope.isLoggedIn = true;
 
                 $log.debug("Authenticated with:", authData);
             } else {
                 $rootScope.authData = null;
-                $rootScope.isLoggedIn = false;
 
                 $log.debug("Client unauthenticated.")
             }

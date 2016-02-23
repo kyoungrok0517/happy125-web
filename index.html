@@ -89,11 +89,9 @@
             <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
                 <a href="#posts" class="mdl-layout__tab is-active">Posts</a>
                 <a href="#about" class="mdl-layout__tab">About</a>
-                <!--<a href="#login" class="mdl-layout__tab">Login</a>-->
-                <!--<a href="#register" class="mdl-layout__tab">Register</a>-->
                 <div class="mdl-layout-spacer"></div>
                 <h6 id="userInfo">
-                    {{ isLoggedIn ? authData.facebook.email : 'Not logged in' }}
+                    {{ authData ? authData.facebook.email : 'Not logged in' }}
                 </h6>
             </div>
 
@@ -104,9 +102,9 @@
             <span class="mdl-layout-title">Menu</span>
             <nav class="mdl-navigation">
                 <a class="mdl-navigation__link" href="">Home</a>
-                <button ng-if="!isLoggedIn" ng-click="loginWithFacebook()" title="Login with Facebook" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--facebook">
+                <button ng-if="!authData" ng-click="loginWithFacebook()" title="Login with Facebook" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--facebook">
                     <i class="fa fa-facebook fa-fw"></i> Login with Facebook</button>
-                <a ng-if="isLoggedIn" ng-click="logout()" class="mdl-navigation__link" href="">Logout</a>
+                <a ng-if="authData" ng-click="logout()" class="mdl-navigation__link" href="">Logout</a>
             </nav>
         </div>
 
