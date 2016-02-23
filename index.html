@@ -74,6 +74,11 @@
 </head>
 
 <body ng-app="app" class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+    <div id="happy-snackbar" class="mdl-js-snackbar mdl-snackbar">
+        <div class="mdl-snackbar__text"></div>
+        <button class="mdl-snackbar__action" type="button"></button>
+    </div>
+
     <div ng-controller="PostCtrl" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <!-- Header -->
         <header class="mdl-layout__header mdl-color--primary">
@@ -84,18 +89,21 @@
             <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
                 <a href="#posts" class="mdl-layout__tab is-active">Posts</a>
                 <a href="#about" class="mdl-layout__tab">About</a>
-                <a href="#login" class="mdl-layout__tab">Login</a>
-                <a href="#register" class="mdl-layout__tab">Register</a>
+                <!--<a href="#login" class="mdl-layout__tab">Login</a>-->
+                <!--<a href="#register" class="mdl-layout__tab">Register</a>-->
             </div>
         </header>
 
         <!-- Sidebar Menu -->
-        <div class="mdl-layout__drawer">
-            <span class="mdl-layout-title">Title</span>
+        <div class="mdl-layout__drawer" ng-controller="LoginCtrl">
+            <span class="mdl-layout-title">Menu</span>
             <nav class="mdl-navigation">
                 <a class="mdl-navigation__link" href="">Home</a>
-                <a class="mdl-navigation__link" href="">Login</a>
-                <a class="mdl-navigation__link" href="">Register</a>
+                <!--<a class="mdl-navigation__link" href="">Login</a>-->
+                <button ng-if="!isLoggedIn" ng-click="loginWithFacebook()" title="Login with Facebook" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--facebook">
+                    <i class="fa fa-facebook fa-fw"></i> Login with Facebook</button>
+                <a ng-if="isLoggedIn" ng-click="logout()" class="mdl-navigation__link" href="">Logout</a>
+                <!--<a class="mdl-navigation__link" href="">Register</a>-->
             </nav>
         </div>
 

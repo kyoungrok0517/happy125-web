@@ -1,15 +1,23 @@
 /* global Firebase */
 angular.module("app", ["firebase", "ngStorage"])
 
-    .run(function ($rootScope, $localStorage, $sessionStorage) {
+    .run(function ($rootScope, $localStorage, $sessionStorage, $log, NotifyServ) {
+        // Setup localStorage
         $rootScope.$storage = $localStorage;
 
+        // Auth
         var ref = new Firebase("https://happy125.firebaseio.com");
         ref.onAuth(function (authData) {
             if (authData) {
-                console.log("Authenticated with uid:", authData.uid);
+                $rootScope.authData = authData;
+                $rootScope.isLoggedIn = true;
+
+                $log.debug("Authenticated with:", authData);
             } else {
-                console.log("Client unauthenticated.")
+                $rootScope.authData = null;
+                $rootScope.isLoggedIn = false;
+
+                $log.debug("Client unauthenticated.")
             }
         });
     })
@@ -19,10 +27,20 @@ angular.module("app", ["firebase", "ngStorage"])
         $scope.posts = $firebaseArray(_postsRef);
     })
 
-    .controller("LoginCtrl", function ($scope) {
+    .controller("LoginCtrl", function ($scope, NotifyServ) {
         var _ref = new Firebase("https://happy125.firebaseio.com");
 
-        $scope.login = function ($event) {
+        $scope.loginWithFacebook = function () {
+            _ref.authWithOAuthRedirect("facebook", function (error, authData) {
+                if (error) {
+                    console.log("Login Failed!", error);
+                } else {
+                    console.log("Authenticated successfully with payload:", authData);
+                }
+            }, { 'scope': 'email' });
+        }
+
+        $scope.loginWithEmail = function ($event) {
             var email = $scope.user.email;
             var password = $scope.user.password;
 
@@ -42,16 +60,6 @@ angular.module("app", ["firebase", "ngStorage"])
 
         $scope.logout = function () {
             _ref.unauth();
-        }
-
-        $scope.loginWithFacebook = function () {
-            _ref.authWithOAuthRedirect("facebook", function (error, authData) {
-                if (error) {
-                    console.log("Login Failed!", error);
-                } else {
-                    console.log("Authenticated successfully with payload:", authData);
-                }
-            }, { 'scope': 'email' });
         }
     })
 
@@ -83,3 +91,8 @@ angular.module("app", ["firebase", "ngStorage"])
         };
     })
 
+    .directive('toastDirective', function () {
+        return function (scope, element, attrs) {
+
+        }
+    })
