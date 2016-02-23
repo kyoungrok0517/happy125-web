@@ -1,7 +1,7 @@
 /* global Firebase */
 angular.module("app", ["firebase", "ngStorage"])
 
-    .run(function ($rootScope, $localStorage, $sessionStorage, $log, NotifyServ) {
+    .run(function ($rootScope, $localStorage, $sessionStorage, $log) {
         // Setup localStorage
         $rootScope.$storage = $localStorage;
 
@@ -27,7 +27,7 @@ angular.module("app", ["firebase", "ngStorage"])
         $scope.posts = $firebaseArray(_postsRef);
     })
 
-    .controller("LoginCtrl", function ($scope, NotifyServ) {
+    .controller("LoginCtrl", function ($scope) {
         var _ref = new Firebase("https://happy125.firebaseio.com");
 
         $scope.loginWithFacebook = function () {

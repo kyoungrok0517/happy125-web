@@ -91,7 +91,12 @@
                 <a href="#about" class="mdl-layout__tab">About</a>
                 <!--<a href="#login" class="mdl-layout__tab">Login</a>-->
                 <!--<a href="#register" class="mdl-layout__tab">Register</a>-->
+                <div class="mdl-layout-spacer"></div>
+                <h6 id="userInfo" ng-if="isLoggedIn">
+                    {{ authData.facebook.email }}
+                </h6>
             </div>
+
         </header>
 
         <!-- Sidebar Menu -->

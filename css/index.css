@@ -37,3 +37,8 @@
     box-sizing: border-box;
     flex-direction: column;
 } 
+
+#userInfo {
+    width: 14em;
+    font-size: 1.3em;
+}
