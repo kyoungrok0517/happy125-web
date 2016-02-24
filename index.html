@@ -22,7 +22,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>kaisTogether</title>
+    <title>KaisTogether</title>
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -82,31 +82,34 @@
     <div ng-controller="PostCtrl" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <!-- Header -->
         <header class="mdl-layout__header mdl-color--primary">
+            <!--<div class="mdl-layout--large-screen-only mdl-layout__header-row">
+            </div>-->
             <div class="mdl-layout__header-row">
                 <!-- Title -->
-                <span style="padding-left: 1.5em" class="mdl-layout-title">KaisTogether</span>
+                <h3 class="mdl-layout-title">KaisTogether</h3>
             </div>
+            <!--<div class="mdl-layout--large-screen-only mdl-layout__header-row">
+            </div>-->
             <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
                 <a href="#posts" class="mdl-layout__tab is-active">Posts</a>
                 <a href="#about" class="mdl-layout__tab">About</a>
                 <div class="mdl-layout-spacer"></div>
-                <h6 id="userInfo">
-                    {{ authData ? authData.facebook.email : 'Not logged in' }}
-                </h6>
+                <div id="loginPanel" ng-controller="LoginCtrl">
+                    <button ng-if="!authData" ng-click="loginWithFacebook()" title="Login with Facebook" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--facebook">
+                        <i class="fa fa-facebook fa-fw"></i> Login with Facebook</button>
+                    <button ng-if="authData" ng-click="logout()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-js-ripple-effect">Logout</button>
+                </div>
             </div>
 
         </header>
 
         <!-- Sidebar Menu -->
-        <div class="mdl-layout__drawer" ng-controller="LoginCtrl">
+        <!--<div class="mdl-layout__drawer">
             <span class="mdl-layout-title">Menu</span>
             <nav class="mdl-navigation">
                 <a class="mdl-navigation__link" href="">Home</a>
-                <button ng-if="!authData" ng-click="loginWithFacebook()" title="Login with Facebook" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--facebook">
-                    <i class="fa fa-facebook fa-fw"></i> Login with Facebook</button>
-                <a ng-if="authData" ng-click="logout()" class="mdl-navigation__link" href="">Logout</a>
             </nav>
-        </div>
+        </div>-->
 
         <!-- Content -->
         <main class="mdl-layout__content">

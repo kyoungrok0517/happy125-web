@@ -43,3 +43,11 @@
     font-size: 1.3em;
     text-align: right;
 }
+
+#loginPanel {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1em;
+}

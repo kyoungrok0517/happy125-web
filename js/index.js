@@ -35,7 +35,7 @@ angular.module("app", ["firebase", "ngStorage"])
                 } else {
                     console.log("Authenticated successfully with payload:", authData);
                 }
-            }, { 'scope': 'email' });
+            }, { 'scope': 'email,public_profile' });
         }
 
         $scope.loginWithEmail = function ($event) {
