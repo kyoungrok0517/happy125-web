@@ -189,19 +189,21 @@
 
 
                     <!-- Posts -->
-                    <div ng-repeat="post in posts" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col-phone mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--6-col-desktop mdl-cell--3-offset-desktop">
-                        <div class="mdl-card__title">
-                            <h3>{{ post.content }}</h3>
+                    <div ng-repeat="post in posts" class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--4-col-phone mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--6-col-desktop mdl-cell--3-offset-desktop">
+                        <div class="mdl-card__title mdl-color--primary mdl-color-text--white">
+                            <h2 class="mdl-card__title-text">{{ post.email }}</h2>
+                        </div>
+                        <div class="mdl-card__menu">
+                            <button class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect"><i class="material-icons md-45">favorite</i></button>
                         </div>
                         <div class="mdl-card__supporting-text">
-                            <h6>{{ post.id | date : 'medium' }}</h6>
-                            <h6>Shared by {{ post.email }}</h6>
+                            {{ post.content }}
+                            <!--<h6>{{ post.id | date : 'medium' }}</h6>-->
                         </div>
                         <div class="mdl-card__actions mdl-card--border">
-                            <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Read More</a>
-                            <div class="mdl-layout-spacer"></div>
-                            <button class="mdl-button mdl-button--icon mdl-button--colored"><i class="material-icons md-24">favorite</i></button>
-                            <button class="mdl-button mdl-button--icon mdl-button--colored"><i class="material-icons md-24">share</i></button>
+                            <button class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Read More</button>
+                            <!--<button class="mdl-button mdl-button--icon mdl-button--colored"><i class="material-icons md-24">favorite</i></button>
+                            <button class="mdl-button mdl-button--icon mdl-button--colored"><i class="material-icons md-24">share</i></button>-->
                         </div>
                     </div>
                 </div>
