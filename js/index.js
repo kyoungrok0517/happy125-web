@@ -81,16 +81,20 @@ angular.module("app", ["firebase", "ngStorage"])
         }
     })
 
-    .directive('dynamicMoreButtonDirective', function () {
-        return function (scope, element, attrs) {
-            // componentHandler.upgradeElement(element[0]);
-            
-            // console.log(element[0]);
+    .directive('happypost', function () {
+        // define the directive object
+        var directive = {};
+        
+        // restrict = E
+        directive.restrict = 'E';
+        
+        // template
+        directive.templateUrl = "templates/happypost.html"
+        
+        // scope
+        directive.scope = {
+          post: '=id'  
         };
-    })
-
-    .directive('toastDirective', function () {
-        return function (scope, element, attrs) {
-
-        }
+        
+        return directive;
     })
