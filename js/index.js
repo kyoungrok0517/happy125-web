@@ -81,7 +81,7 @@ angular.module("app", ["firebase", "ngStorage"])
         }
     })
 
-    .directive('happypost', function () {
+    .directive('happypost', function ($log) {
         // define the directive object
         var directive = {};
         
@@ -91,10 +91,12 @@ angular.module("app", ["firebase", "ngStorage"])
         // template
         directive.templateUrl = "templates/happypost.html"
         
-        // scope
-        directive.scope = {
-          post: '=id'  
-        };
-        
+        // link
+        directive.link = function (scope, element, attrs) {
+            var menus = element.find('ul');
+            $log.debug(menus);
+            componentHandler.upgradeElements(menus);
+        }
+
         return directive;
     })
