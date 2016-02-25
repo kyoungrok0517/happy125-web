@@ -91,10 +91,14 @@ angular.module("app", ["firebase", "ngStorage"])
         // template
         directive.templateUrl = "templates/happypost.html"
         
+        // scope
+        directive.scope = {
+            post: '='
+        }
+        
         // link
         directive.link = function (scope, element, attrs) {
             var menus = element.find('ul');
-            $log.debug(menus);
             componentHandler.upgradeElements(menus);
         }
 
