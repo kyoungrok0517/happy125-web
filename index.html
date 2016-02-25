@@ -80,7 +80,7 @@
         <button class="mdl-snackbar__action" type="button"></button>
     </div>
 
-    <div ng-controller="PostCtrl" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <!-- Header -->
         <header class="mdl-layout__header mdl-color--primary">
             <!--<div class="mdl-layout--large-screen-only mdl-layout__header-row">
@@ -162,7 +162,7 @@
                 </form>
             </div>
 
-            <div class="mdl-layout__tab-panel is-active" id="posts">
+            <div ng-controller="PostCtrl" class="mdl-layout__tab-panel is-active" id="posts">
                 <div class="mdl-grid">
 
                     <!-- Writing Form -->
