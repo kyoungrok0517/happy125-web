@@ -86,9 +86,6 @@ angular.module("app", ["firebase", "ngStorage"])
             restrict: 'A',
             templateUrl: "templates/happy-post.html",
             replace: true,
-            scope: {
-                post: '='
-            },
             // link: function (scope, element, attrs) {
             //     var menus = element.find('ul');
             //     componentHandler.upgradeElements(menus);
