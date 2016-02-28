@@ -81,26 +81,17 @@ angular.module("app", ["firebase", "ngStorage"])
         }
     })
 
-    .directive('happypost', function ($log) {
-        // define the directive object
-        var directive = {};
-        
-        // restrict = E
-        directive.restrict = 'E';
-        
-        // template
-        directive.templateUrl = "templates/happypost.html"
-        
-        // scope
-        directive.scope = {
-            post: '='
+    .directive('happyPost', function ($log) {
+        return {
+            restrict: 'E',
+            templateUrl: "templates/happy-post.html",
+            replace: true,
+            scope: {
+                post: '='
+            },
+            // link: function (scope, element, attrs) {
+            //     var menus = element.find('ul');
+            //     componentHandler.upgradeElements(menus);
+            // }
         }
-        
-        // link
-        directive.link = function (scope, element, attrs) {
-            var menus = element.find('ul');
-            componentHandler.upgradeElements(menus);
-        }
-
-        return directive;
     })
