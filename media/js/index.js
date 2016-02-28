@@ -83,7 +83,7 @@ angular.module("app", ["firebase", "ngStorage"])
 
     .directive('happyPost', function ($log) {
         return {
-            restrict: 'E',
+            restrict: 'A',
             templateUrl: "templates/happy-post.html",
             replace: true,
             scope: {
