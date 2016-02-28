@@ -60,6 +60,7 @@
 
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
 
     <!-- Firebase -->
     <script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
@@ -70,7 +71,6 @@
 
     <!-- My -->
     <script src="./media/js/index.js"></script>
-    <script src="./node_modules/ngstorage/ngStorage.min.js"></script>
 </head>
 
 <body ng-app="app" class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
@@ -188,7 +188,7 @@
 
 
                     <!-- Posts -->
-                    <div happy-post ng-repeat="post in posts"></div>
+                    <div ng-repeat="post in posts" happy-post-directive></div>
                 </div>
             </div>
 

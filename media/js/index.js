@@ -81,18 +81,17 @@ angular.module("app", ["firebase", "ngStorage"])
         }
     })
 
-    .directive('happyPost', function ($log) {
+    .directive('happyPostDirective', function ($log) {
         return {
             restrict: 'A',
             templateUrl: "templates/happy-post.html",
             replace: true,
-            controller: function($scope, $element, $attrs, $transclude) {
-                // var menus = $element.find('ul');
-                // componentHandler.upgradeElements(menus);
+            link: function (scope, element, attrs) {
+                if (scope.$last === true) {
+                    element.ready(function () {
+                        componentHandler.upgradeAllRegistered()
+                    });
+                }
             }
-            // link: function (scope, element, attrs) {
-            //     var menus = element.find('ul');
-            //     componentHandler.upgradeElements(menus);
-            // }
         }
     })
