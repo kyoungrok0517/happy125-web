@@ -1,4 +1,4 @@
-<div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--4-col-phone mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--6-col-desktop mdl-cell--3-offset-desktop">
+<div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col-phone mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--6-col-desktop mdl-cell--3-offset-desktop">
     <div class="mdl-card__title">
         <h1 class="mdl-card__title-text">{{ post.email }}</h1>
     </div>
@@ -11,6 +11,8 @@
             <li class="mdl-menu__item" ng-click="edit(post.uid);">Edit</li>
             <li class="mdl-menu__item" ng-click="delete(post.uid);">Delete</li>
         </ul>
+
+        <div class="material-icons mdl-badge mdl-badge--overlap mdl-color-text--pink" data-badge="1">favorite</div>
     </div>
     <div class="mdl-card__supporting-text">
         <p>{{ post.content }}</p>
@@ -19,17 +21,17 @@
     <div class="mdl-card__actions mdl-card--border">
         <!--<button class="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect">Read More</button>-->
         <div class="mdl-layout-spacer"></div>
-        
+
         <!-- Like Button -->
-        <button disabled id="like-button-{{$index}}" class="mdl-button mdl-button--icon mdl-color-text--blue-grey-300">
-            <i class="material-icons">favorite</i>
+        <button disabled id="like-button-{{$index}}" class="mdl-button mdl-color-text--blue-grey-700">
+            Like
         </button>
         <span for="like-button-{{$index}}" class="mdl-tooltip mdl-tooltip--top">Like</span>
-        
+
         <!-- Share Button -->
-        <button disabled id="share-button-{{$index}}" class="mdl-button mdl-button--icon mdl-color-text--blue-grey-300">
+        <!--<button disabled id="share-button-{{$index}}" class="mdl-button mdl-button--icon mdl-color-text--blue-grey-300">
             <i class="material-icons">share</i>
         </button>
-        <span for="share-button-{{$index}}" class="mdl-tooltip mdl-tooltip--top">Share</span>
+        <span for="share-button-{{$index}}" class="mdl-tooltip mdl-tooltip--top">Share</span>-->
     </div>
 </div>

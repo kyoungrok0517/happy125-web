@@ -121,7 +121,7 @@ angular.module("app", ["firebase", "ngStorage"])
             unlike: function (post, uid) {
                 var path = getPath(post, uid);
                 likeRef.child(path).remove();
-                
+
                 downlike(post);
             },
             isLiked: function (post, uid) {
@@ -171,10 +171,21 @@ angular.module("app", ["firebase", "ngStorage"])
         }
     })
 
-    .directive('happyPostDirective', function ($log, $firebaseArray, AuthSrv, LikeSrv) {
+    .directive('writeFormDirective', function ($log, AuthSrv) {
         return {
             restrict: 'A',
-            templateUrl: "templates/happy-post.html",
+            templateUrl: "templates/write.html",
+            replace: true,
+            link: function (scope, element, attrs) {
+
+            }
+        }
+    })
+
+    .directive('postDirective', function ($log, $firebaseArray, AuthSrv, LikeSrv) {
+        return {
+            restrict: 'A',
+            templateUrl: "templates/post.html",
             replace: true,
             link: function (scope, element, attrs) {
                 var post = scope.post;
