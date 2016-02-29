@@ -6,12 +6,11 @@ angular.module("app", ["firebase", "ngStorage"])
         // Setup localStorage
         $rootScope.$storage = $localStorage;
         
-        // Auth
-        $rootScope.authSrv = AuthSrv;
-        // $log.debug(AuthSrv.getEmail());
+        // Log-in state
+        $rootScope.isLoggedIn = AuthSrv.isLoggedIn();
     })
 
-    .controller("PostCtrl", function ($scope, $firebaseArray) {
+    .controller("PostCtrl", function ($log, $scope, $firebaseArray, AuthSrv) {
         var _postsRef = new Firebase("https://happy125.firebaseio.com/posts");
         $scope.posts = $firebaseArray(_postsRef);
     })
@@ -77,18 +76,7 @@ angular.module("app", ["firebase", "ngStorage"])
 
     .factory("AuthSrv", function ($log, $localStorage, $rootScope) {
         var _ref = new Firebase("https://happy125.firebaseio.com");
-        var _authData = {};
-        _ref.onAuth(function (authData) {
-            if (authData) {
-                _authData = authData;
-                $rootScope.isLoggedIn = true;
-                $log.debug("Authenticated with:", authData);
-            } else {
-                _authData = null;
-                $rootScope.isLoggedIn = false;
-                $log.debug("Client unauthenticated.")
-            }
-        });
+        var _authData = _ref.getAuth();
 
         return {
             ref: _ref,
@@ -141,25 +129,15 @@ angular.module("app", ["firebase", "ngStorage"])
                     var likeButton = angular.element(element.find('button')[1]);
                     likeButton.removeAttr('disabled')
                     likeButton.on('click', function (event) {
-                        var likes = null;
-                        
-                        // init `likes` array
-                        if (!(_.has(post, 'likes') && post['likes'] instanceof Array)) {
-                            post['likes'] = [];
-                        }
-                        likes = post['likes'];
-                        
-                        // append my like
-                        likes.push(email);
-                        post['likes'] = _.uniq(likes);
-                        
-                        // $log.debug("Liked by:", email);
-                        $log.debug(post['likes']);
+                        $log.debug(post.content, "Liked by", email);
                     });
                     
                     // enable & init share button
                     var shareButton = angular.element(element.find('button')[2]);
                     shareButton.removeAttr('disabled');
+                    shareButton.on('click', function (event) {
+                        $log.debug(post.content, "Shared by", email);
+                    });
                 }     
                 
                 // enable or disable edit menu 
@@ -172,7 +150,7 @@ angular.module("app", ["firebase", "ngStorage"])
                     scope.edit = function (uid) {
                         $log.debug('edit:', uid);
                     }
-                    
+
                     scope.delete = function (uid) {
                         $log.debug('delete:', uid);
                     }
