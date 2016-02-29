@@ -83,7 +83,9 @@ angular.module("app", ["firebase", "ngStorage"])
 
     .factory("LikeSrv", function ($log, $firebaseArray, $firebaseObject, $rootScope) {
         var likeUrl = "https://happy125.firebaseio.com/likes",
-            likeRef = new Firebase(likeUrl);
+            likeRef = new Firebase(likeUrl),
+            postUrl = "https://happy125.firebaseio.com/posts",
+            postRef = new Firebase(postUrl);
 
         var likeSnapshot = {};
         likeRef.on("value", function (snapshot) {
@@ -92,15 +94,20 @@ angular.module("app", ["firebase", "ngStorage"])
 
         // functions
         function uplike(post) {
-            var countRef = new Firebase(likeUrl + "/" + post.$id + "/count");
+            var countRef = new Firebase(postUrl + "/" + post.$id + "/likes");
             countRef.transaction(function (current_value) {
                 return (current_value || 0) + 1;
             });
         }
         function downlike(post) {
-            var countRef = new Firebase(likeUrl + "/" + post.$id + "/count");
+            var countRef = new Firebase(postUrl + "/" + post.$id + "/likes");
             countRef.transaction(function (current_value) {
-                return (current_value || 0) - 1;
+                var _current_value = current_value || 0;
+                if (_current_value <= 0) {
+                    return 0;
+                } else {
+                    return _current_value - 1;    
+                }
             });
         }
         function getPath(post, uid) {
@@ -199,7 +206,13 @@ angular.module("app", ["firebase", "ngStorage"])
                     var likeButton = angular.element(element.find('button')[1]);
                     likeButton.removeAttr('disabled')
                     likeButton.on('click', function (event) {
-                        LikeSrv.like(post, uid);
+                        if (LikeSrv.isLiked(post, uid)) {
+                            LikeSrv.unlike(post, uid);
+                            likeButton.removeClass('mdl-color-text--pink');
+                        } else {
+                            LikeSrv.like(post, uid);
+                            likeButton.addClass('mdl-color-text--pink');    
+                        }
                     });
                     
                     // enable & init share button
