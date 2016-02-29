@@ -81,69 +81,75 @@ angular.module("app", ["firebase", "ngStorage"])
         }
     })
 
-    .factory("LikeSrv", function ($log, $firebaseArray) {
+    .factory("LikeSrv", function ($log, $firebaseArray, $firebaseObject, $rootScope) {
         var _ref = new Firebase("https://happy125.firebaseio.com/likes");
-        function getSnapshotInfo(snapshot) {
-            return {
-                key: snapshot.key(),
-                values: snapshot.val(),
-                count: snapshot.numChildren()
-            }
-        }
+        var remoteLikeObj = $firebaseObject(_ref);
+        // remoteLikeObj.$bindTo($rootScope, "likeObj").then(function () {
+        //     $log.debug($rootScope.likeObj);
+        // })
 
-        var _likes = {};
-        function setLikeInfo(key, emails) {
-            _likes[key] = {
-                emails: emails,
-                count: emails.length
-            };
-        }
+        // function getSnapshotInfo(snapshot) {
+        //     return {
+        //         key: snapshot.key(),
+        //         values: snapshot.val(),
+        //         count: snapshot.numChildren()
+        //     }
+        // }
+        // function findLikeKey(likes, email) {
+        //     return _.findKey(likes, email);
+        // }
         
         // value
-        _ref.once("value", function (snapshot) {
-            var info = getSnapshotInfo(snapshot);
-            _.forEach(info.values, function (emails, key) {
-                setLikeInfo(key, emails);
-            })
-
-            // $log.debug(_likes);
-        });
+        // _ref.once("value", function (snapshot) {
+        //     _likes = snapshot.val();
+        //     $log.debug(_likes);
+        // });
         
         // child_added
-        _ref.on("child_added", function (snapshot, prevChildKey) {
-            var info = getSnapshotInfo(snapshot);
-            setLikeInfo(info.key, info.values);
-        });
+        // _ref.on("child_added", function (snapshot, prevChildKey) {
+        //     var info = getSnapshotInfo(snapshot);
+        //     setLikeInfo(info.key, info.values);
+        // });
         
-        // child_changed
-        _ref.on("child_changed", function (snapshot) {
-            var info = getSnapshotInfo(snapshot);
-            setLikeInfo(info.key, info.values);
-        });
+        // // child_changed
+        // _ref.on("child_changed", function (snapshot) {
+        //     var info = getSnapshotInfo(snapshot);
+        //     setLikeInfo(info.key, info.values);
+        // });
         
-        // child_removed
-        _ref.on("child_removed", function (snapshot) {
-            var info = getSnapshotInfo(snapshot);
-            _.pullAll(_likes[info.key], info.values);
+        // // child_removed
+        // _ref.on("child_removed", function (snapshot) {
+        //     var info = getSnapshotInfo(snapshot);
+        //     $log.debug("Like removed: ", info);
+        //     // _.pullAll(_likes[info.key], info.values);
 
-            $log.debug("After deletion:", _likes);
-        })
+        //     // $log.debug("After deletion:", _likes);
+        // })
 
         return {
-            likes: _likes,
+            likeObj: $rootScope.likeObj,
             like: function (post, email) {
-                var likes = $firebaseArray(_ref.child(post.$id));
-                if (likes.$indexFor(email) === -1) {
-                    likes.$add(email);
-                }
+                // var postId = post.$id,
+                //     postLikesRef = _ref.child(postId),
+                //     newLikeRef = postLikesRef.push(),
+                //     newLikeKey = newLikeRef.key();
+
+                // // add email
+                // // this.likeObj.newLikeKey = email;
+                // $log.debug(this.likeObj, newLikeKey);
+                
+                // // var remoteLikes = $firebaseArray(postLikesRef),
+                // //     localLikes = _likes[postId] || {};
+
+                // // $log.debug(this.likeObj);
             },
             unlike: function (post, email) {
-                var likes = $firebaseArray(_ref.child(post.$id));
-                if (likes.$indexFor(email) !== -1) {
-                    likes.$remove(email);
-                }
+                // var likes = $firebaseArray(_ref.child(post.$id));
+                // if (likes.$indexFor(email) !== -1) {
+                //     likes.$remove(email);
+                // }
             }
-        }
+        };
     })
 
     .factory("AuthSrv", function ($log, $localStorage, $rootScope) {
