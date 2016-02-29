@@ -82,72 +82,33 @@ angular.module("app", ["firebase", "ngStorage"])
     })
 
     .factory("LikeSrv", function ($log, $firebaseArray, $firebaseObject, $rootScope) {
-        var _ref = new Firebase("https://happy125.firebaseio.com/likes");
-        var remoteLikeObj = $firebaseObject(_ref);
-        // remoteLikeObj.$bindTo($rootScope, "likeObj").then(function () {
-        //     $log.debug($rootScope.likeObj);
-        // })
+        var likeUrl = "https://happy125.firebaseio.com/likes",
+            likeRef = new Firebase(likeUrl);
 
-        // function getSnapshotInfo(snapshot) {
-        //     return {
-        //         key: snapshot.key(),
-        //         values: snapshot.val(),
-        //         count: snapshot.numChildren()
-        //     }
-        // }
-        // function findLikeKey(likes, email) {
-        //     return _.findKey(likes, email);
-        // }
-        
-        // value
-        // _ref.once("value", function (snapshot) {
-        //     _likes = snapshot.val();
-        //     $log.debug(_likes);
-        // });
-        
-        // child_added
-        // _ref.on("child_added", function (snapshot, prevChildKey) {
-        //     var info = getSnapshotInfo(snapshot);
-        //     setLikeInfo(info.key, info.values);
-        // });
-        
-        // // child_changed
-        // _ref.on("child_changed", function (snapshot) {
-        //     var info = getSnapshotInfo(snapshot);
-        //     setLikeInfo(info.key, info.values);
-        // });
-        
-        // // child_removed
-        // _ref.on("child_removed", function (snapshot) {
-        //     var info = getSnapshotInfo(snapshot);
-        //     $log.debug("Like removed: ", info);
-        //     // _.pullAll(_likes[info.key], info.values);
-
-        //     // $log.debug("After deletion:", _likes);
-        // })
+        function uplike(post) {
+            var uplikeRef = new Firebase(likeUrl + "/" + post.$id + "/count");
+            uplikeRef.transaction(function (current_value) {
+                return (current_value || 0) + 1;
+            });
+        }
 
         return {
-            likeObj: $rootScope.likeObj,
-            like: function (post, email) {
-                // var postId = post.$id,
-                //     postLikesRef = _ref.child(postId),
-                //     newLikeRef = postLikesRef.push(),
-                //     newLikeKey = newLikeRef.key();
-
-                // // add email
-                // // this.likeObj.newLikeKey = email;
-                // $log.debug(this.likeObj, newLikeKey);
+            like: function (post, uid) {
+                var path = post.$id + "/" + uid;
                 
-                // // var remoteLikes = $firebaseArray(postLikesRef),
-                // //     localLikes = _likes[postId] || {};
+                $log.debug(likeRef.child(path));
 
-                // // $log.debug(this.likeObj);
-            },
-            unlike: function (post, email) {
-                // var likes = $firebaseArray(_ref.child(post.$id));
-                // if (likes.$indexFor(email) !== -1) {
-                //     likes.$remove(email);
+                // if (!likeRef.hasChild(path)) {
+                //     // like the post
+                //     likeRef.child(path).set(true);
+                
+                //     // uplike
+                //     uplike(post);
                 // }
+            },
+            unlike: function (post, uid) {
+                var path = post.$id + "/" + uid;
+                likeRef.child(path).remove();
             }
         };
     })
@@ -203,20 +164,20 @@ angular.module("app", ["firebase", "ngStorage"])
                 // Check log-in state
                 var isLoggedIn = AuthSrv.isLoggedIn();
                 if (isLoggedIn) {
-                    var email = AuthSrv.getEmail();
+                    var uid = AuthSrv.getUid();
                     
                     // enable & init like button
                     var likeButton = angular.element(element.find('button')[1]);
                     likeButton.removeAttr('disabled')
                     likeButton.on('click', function (event) {
-                        LikeSrv.like(post, email);
+                        LikeSrv.like(post, uid);
                     });
                     
                     // enable & init share button
                     var shareButton = angular.element(element.find('button')[2]);
                     shareButton.removeAttr('disabled');
                     shareButton.on('click', function (event) {
-                        $log.debug(post.content, "Shared by", email);
+                        $log.debug(post.content, "Shared by", uid);
                     });
                 }     
                 
