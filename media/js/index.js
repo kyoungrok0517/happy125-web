@@ -85,30 +85,48 @@ angular.module("app", ["firebase", "ngStorage"])
         var likeUrl = "https://happy125.firebaseio.com/likes",
             likeRef = new Firebase(likeUrl);
 
+        var likeSnapshot = {};
+        likeRef.on("value", function (snapshot) {
+            likeSnapshot = snapshot;
+        });
+
+        // functions
         function uplike(post) {
-            var uplikeRef = new Firebase(likeUrl + "/" + post.$id + "/count");
-            uplikeRef.transaction(function (current_value) {
+            var countRef = new Firebase(likeUrl + "/" + post.$id + "/count");
+            countRef.transaction(function (current_value) {
                 return (current_value || 0) + 1;
             });
+        }
+        function downlike(post) {
+            var countRef = new Firebase(likeUrl + "/" + post.$id + "/count");
+            countRef.transaction(function (current_value) {
+                return (current_value || 0) - 1;
+            });
+        }
+        function getPath(post, uid) {
+            return post.$id + "/" + uid;
         }
 
         return {
             like: function (post, uid) {
-                var path = post.$id + "/" + uid;
+                var path = getPath(post, uid);
+                if (!likeSnapshot.child(path).exists()) {
+                    // like the post
+                    likeRef.child(path).set(true);
                 
-                $log.debug(likeRef.child(path));
-
-                // if (!likeRef.hasChild(path)) {
-                //     // like the post
-                //     likeRef.child(path).set(true);
-                
-                //     // uplike
-                //     uplike(post);
-                // }
+                    // uplike
+                    uplike(post);
+                }
             },
             unlike: function (post, uid) {
-                var path = post.$id + "/" + uid;
+                var path = getPath(post, uid);
                 likeRef.child(path).remove();
+                
+                downlike(post);
+            },
+            isLiked: function (post, uid) {
+                var path = getPath(post, uid);
+                return likeSnapshot.child(path).exists();
             }
         };
     })
