@@ -11,16 +11,15 @@
             <li class="mdl-menu__item" ng-click="edit(post.uid);">Edit</li>
             <li class="mdl-menu__item" ng-click="delete(post.uid);">Delete</li>
         </ul>
-
-        <div class="material-icons mdl-badge mdl-badge--no-background mdl-badge--overlap mdl-color-text--pink" data-badge="1">favorite</div>
     </div>
     <div class="mdl-card__supporting-text">
         <p>{{ post.content }}</p>
         <!--<h6>{{ post.id | date : 'medium' }}</h6>-->
+        <div class="material-icons mdl-badge mdl-badge--overlap mdl-color-text--pink" data-badge="{{ post.likes || 0 }}">favorite</div>
     </div>
     <div class="mdl-card__actions mdl-card--border">
         <!--<button class="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect">Read More</button>-->
-        <div class="mdl-layout-spacer"></div>
+        
 
         <!-- Like Button -->
         <button disabled id="like-button-{{$index}}" class="mdl-button mdl-color-text--blue-grey-700">
@@ -33,5 +32,6 @@
             <i class="material-icons">share</i>
         </button>
         <span for="share-button-{{$index}}" class="mdl-tooltip mdl-tooltip--top">Share</span>-->
+        <div class="mdl-layout-spacer"></div>
     </div>
 </div>
