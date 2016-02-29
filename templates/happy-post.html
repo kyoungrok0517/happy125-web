@@ -4,12 +4,12 @@
     </div>
     <div class="mdl-card__menu">
         <!-- Right aligned menu below button -->
-        <button id="edit-menu-{{$index}}" class="mdl-button mdl-js-button mdl-button--icon">
+        <button id="edit-menu-{{$index}}" class="mdl-button mdl-js-button mdl-button--icon ng-hide">
             <i class="material-icons">more_vert</i>
         </button>
         <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="edit-menu-{{$index}}">
-            <li class="mdl-menu__item">Edit</li>
-            <li class="mdl-menu__item">Delete</li>
+            <li class="mdl-menu__item" ng-click="edit(post.uid);">Edit</li>
+            <li class="mdl-menu__item" ng-click="delete(post.uid);">Delete</li>
         </ul>
     </div>
     <div class="mdl-card__supporting-text">
