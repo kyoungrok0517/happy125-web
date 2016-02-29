@@ -1,3 +1,4 @@
+/* global _ */
 /* global Firebase */
 angular.module("app", ["firebase", "ngStorage"])
 
@@ -29,7 +30,7 @@ angular.module("app", ["firebase", "ngStorage"])
             ref: _ref,
             authData: _authData,
             isLoggedIn: function () {
-              return this.authData;  
+                return this.authData;
             },
             getUid: function () {
                 if (this.authData) {
@@ -38,7 +39,7 @@ angular.module("app", ["firebase", "ngStorage"])
                     return null;
                 }
             },
-            getEmail: function() {
+            getEmail: function () {
                 var authData = this.authData;
                 if (authData) {
                     var provider = authData.provider;
@@ -53,7 +54,7 @@ angular.module("app", ["firebase", "ngStorage"])
                     return null;
                 }
             },
-            isAuthor: function(email) {
+            isAuthor: function (email) {
                 return this.getEmail() === email;
             }
         }
@@ -64,7 +65,7 @@ angular.module("app", ["firebase", "ngStorage"])
         $scope.posts = $firebaseArray(_postsRef);
     })
 
-    .controller("LoginCtrl", function ($scope) {
+    .controller("LoginCtrl", function ($scope, $window) {
         var _ref = new Firebase("https://happy125.firebaseio.com");
 
         $scope.loginWithFacebook = function () {
@@ -97,6 +98,8 @@ angular.module("app", ["firebase", "ngStorage"])
 
         $scope.logout = function () {
             _ref.unauth();
+            
+            $window.location.reload();
         }
     })
 
@@ -130,8 +133,39 @@ angular.module("app", ["firebase", "ngStorage"])
                 // depending on the authorship
                 var isAuthor = AuthSrv.isAuthor(scope.post.email);
                 if (isAuthor) {
-                    
+
                 } 
+                
+                // Check log-in state
+                var isLoggedIn = AuthSrv.isLoggedIn();
+                if (isLoggedIn) {
+                    var email = AuthSrv.getEmail();
+                    var post = scope.post;
+                    
+                    // enable & init like button
+                    var likeButton = angular.element(element.find('button')[1]);
+                    likeButton.removeAttr('disabled')
+                    likeButton.on('click', function (event) {
+                        var likes = null;
+                        
+                        // init `likes` array
+                        if (!(_.has(post, 'likes') && post['likes'] instanceof Array)) {
+                            post['likes'] = [];
+                        }
+                        likes = post['likes'];
+                        
+                        // append my like
+                        likes.push(email);
+                        post['likes'] = _.uniq(likes);
+                        
+                        // $log.debug("Liked by:", email);
+                        $log.debug(post['likes']);
+                    });
+                    
+                    // enable & init share button
+                    var shareButton = angular.element(element.find('button')[2]);
+                    shareButton.removeAttr('disabled');
+                }      
                 
                 // perform mdl upgrade
                 if (scope.$last === true) {
