@@ -1,23 +1,62 @@
 /* global Firebase */
 angular.module("app", ["firebase", "ngStorage"])
 
-    .run(function ($rootScope, $localStorage, $sessionStorage, $log) {
+    .run(function ($rootScope, $localStorage, $sessionStorage, $log, AuthSrv) {
         // Setup localStorage
         $rootScope.$storage = $localStorage;
-
+        
         // Auth
-        var ref = new Firebase("https://happy125.firebaseio.com");
-        ref.onAuth(function (authData) {
-            if (authData) {
-                $rootScope.authData = authData;
+        $rootScope.authSrv = AuthSrv;
+        // $log.debug(AuthSrv.getEmail());
+    })
 
+    .factory("AuthSrv", function ($log, $localStorage, $rootScope) {
+        var _ref = new Firebase("https://happy125.firebaseio.com");
+        var _authData = {};
+        _ref.onAuth(function (authData) {
+            if (authData) {
+                _authData = authData;
+                $rootScope.isLoggedIn = true;
                 $log.debug("Authenticated with:", authData);
             } else {
-                $rootScope.authData = null;
-
+                _authData = null;
+                $rootScope.isLoggedIn = false;
                 $log.debug("Client unauthenticated.")
             }
         });
+
+        return {
+            ref: _ref,
+            authData: _authData,
+            isLoggedIn: function () {
+              return this.authData;  
+            },
+            getUid: function () {
+                if (this.authData) {
+                    return this.authData.uid || null;
+                } else {
+                    return null;
+                }
+            },
+            getEmail: function() {
+                var authData = this.authData;
+                if (authData) {
+                    var provider = authData.provider;
+                    if (provider === 'facebook') {
+                        return authData.facebook.email;
+                    } else if (provider === 'email') {
+                        return authData.email.email;
+                    } else {
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            },
+            isAuthor: function(email) {
+                return this.getEmail() === email;
+            }
+        }
     })
 
     .controller("PostCtrl", function ($scope, $firebaseArray) {
@@ -81,12 +120,20 @@ angular.module("app", ["firebase", "ngStorage"])
         }
     })
 
-    .directive('happyPostDirective', function ($log) {
+    .directive('happyPostDirective', function ($log, AuthSrv) {
         return {
             restrict: 'A',
             templateUrl: "templates/happy-post.html",
             replace: true,
             link: function (scope, element, attrs) {
+                // enable or disable edit menu 
+                // depending on the authorship
+                var isAuthor = AuthSrv.isAuthor(scope.post.email);
+                if (isAuthor) {
+                    
+                } 
+                
+                // perform mdl upgrade
                 if (scope.$last === true) {
                     element.ready(function () {
                         componentHandler.upgradeAllRegistered()
