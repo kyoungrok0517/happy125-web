@@ -81,15 +81,26 @@ angular.module("app", ["firebase", "ngStorage"])
         }
     })
 
-    .factory("LikeSrv", function ($log, $firebaseObject) {
+    .factory("LikeSrv", function ($log, $firebaseArray) {
         var _ref = new Firebase("https://happy125.firebaseio.com/likes");
         function getSnapshotInfo(snapshot) {
             return {
                 key: snapshot.key(),
-                value: snapshot.val(),
+                values: snapshot.val(),
                 count: snapshot.numChildren()
             }
         }
+
+        var _likes = {};
+        // value
+        _ref.on("value", function (snapshot) {
+            var info = getSnapshotInfo(snapshot);
+            _.forEach(info.values, function (value, key) {
+                _likes[key] = value;
+            })
+
+            $log.debug(_likes);
+        });
         
         // child_added
         _ref.on("child_added", function (snapshot, prevChildKey) {
@@ -98,24 +109,28 @@ angular.module("app", ["firebase", "ngStorage"])
         });
         
         // child_changed
-        _ref.on("child_changed", function(snapshot) {
+        _ref.on("child_changed", function (snapshot) {
             var info = getSnapshotInfo(snapshot);
             $log.debug("Like changed:", info);
         });
         
         // child_removed
-        _ref.on("child_removed", function(snapshot) {
+        _ref.on("child_removed", function (snapshot) {
             var info = getSnapshotInfo(snapshot);
             $log.debug("Like deleted:", info);
         })
 
         return {
+            likes: _likes,
             like: function (post, email) {
-                var postId = post.$id;
-                var newLikeObj = {};
-                newLikeObj[postId] = [email];
+                var likes = $firebaseArray(_ref.child(post.$id));
+                likes.$loaded()
+                    .then(function (likes) {
 
-                _ref.update(newLikeObj);
+                    })
+                    .catch(function (error) {
+
+                    });
             },
             unlike: function (post, email) {
                 var postId = post.$id;
