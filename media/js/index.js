@@ -92,52 +92,56 @@ angular.module("app", ["firebase", "ngStorage"])
         }
 
         var _likes = {};
+        function setLikeInfo(key, emails) {
+            _likes[key] = {
+                emails: emails,
+                count: emails.length
+            };
+        }
+        
         // value
-        _ref.on("value", function (snapshot) {
+        _ref.once("value", function (snapshot) {
             var info = getSnapshotInfo(snapshot);
-            _.forEach(info.values, function (value, key) {
-                _likes[key] = value;
+            _.forEach(info.values, function (emails, key) {
+                setLikeInfo(key, emails);
             })
 
-            $log.debug(_likes);
+            // $log.debug(_likes);
         });
         
         // child_added
         _ref.on("child_added", function (snapshot, prevChildKey) {
             var info = getSnapshotInfo(snapshot);
-            $log.debug("Like added:", info);
+            setLikeInfo(info.key, info.values);
         });
         
         // child_changed
         _ref.on("child_changed", function (snapshot) {
             var info = getSnapshotInfo(snapshot);
-            $log.debug("Like changed:", info);
+            setLikeInfo(info.key, info.values);
         });
         
         // child_removed
         _ref.on("child_removed", function (snapshot) {
             var info = getSnapshotInfo(snapshot);
-            $log.debug("Like deleted:", info);
+            _.pullAll(_likes[info.key], info.values);
+
+            $log.debug("After deletion:", _likes);
         })
 
         return {
             likes: _likes,
             like: function (post, email) {
                 var likes = $firebaseArray(_ref.child(post.$id));
-                likes.$loaded()
-                    .then(function (likes) {
-
-                    })
-                    .catch(function (error) {
-
-                    });
+                if (likes.$indexFor(email) === -1) {
+                    likes.$add(email);
+                }
             },
             unlike: function (post, email) {
-                var postId = post.$id;
-                var unlikeObj = {};
-                unlikeObj[postId] = [];
-
-                _ref.update(unlikeObj);
+                var likes = $firebaseArray(_ref.child(post.$id));
+                if (likes.$indexFor(email) !== -1) {
+                    likes.$remove(email);
+                }
             }
         }
     })
