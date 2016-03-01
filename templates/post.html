@@ -4,12 +4,12 @@
     </div>
     <div class="mdl-card__menu">
         <!-- Right aligned menu below button -->
-        <button id="edit-menu-{{$index}}" class="mdl-button mdl-js-button mdl-button--icon ng-hide">
+        <button id="edit-menu-{{$index}}" class="mdl-button mdl-js-button mdl-button--icon" ng-class="{ 'ng-hide': !post._isAuthor }">
             <i class="material-icons">more_vert</i>
         </button>
         <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="edit-menu-{{$index}}">
-            <li class="mdl-menu__item" ng-click="edit(post.uid);">Edit</li>
-            <li class="mdl-menu__item" ng-click="delete(post.uid);">Delete</li>
+            <li class="mdl-menu__item" ng-click="edit(post);">Edit</li>
+            <li class="mdl-menu__item" ng-click="delete(post);">Delete</li>
         </ul>
     </div>
     <div class="mdl-card__supporting-text">
@@ -22,13 +22,13 @@
         
 
         <!-- Like Button -->
-        <button disabled id="like-button-{{$index}}" class="mdl-button">
+        <button ng-click="toggleLike(post)" ng-class="{ 'mdl-color-text--pink': post._likedByMe }" ng-attr-disabled="!currentAuth" id="like-button-{{$index}}" class="mdl-button">
             Like
         </button>
         <span for="like-button-{{$index}}" class="mdl-tooltip mdl-tooltip--top">Like</span>
 
         <!-- Share Button -->
-        <!--<button disabled id="share-button-{{$index}}" class="mdl-button mdl-button--icon mdl-color-text--blue-grey-300">
+        <!--<button ng-attr-disabled="!currentAuth" id="share-button-{{$index}}" class="mdl-button mdl-button--icon mdl-color-text--blue-grey-300">
             <i class="material-icons">share</i>
         </button>
         <span for="share-button-{{$index}}" class="mdl-tooltip mdl-tooltip--top">Share</span>-->

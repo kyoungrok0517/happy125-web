@@ -5,7 +5,6 @@ angular.module('app.routes', [])
         $stateProvider
             .state('app', {
                 url: '/app',
-                abstract: true,
                 template: '<ui-view/>',
                 controller: function ($rootScope, $log, currentAuth, AuthSrv) {
                     $rootScope.currentAuth = currentAuth;
@@ -17,12 +16,12 @@ angular.module('app.routes', [])
                     }]
                 }
             })
-            .state('app.home', {
-                url: "/home",
-                templateUrl: "partials/home.html"
-            })
-            .state('app.about', {
-                url: "/about",
-                templateUrl: "partials/about.html"
-            })
+            // .state('app.home', {
+            //     url: "/home",
+            //     templateUrl: "partials/home.html"
+            // })
+            // .state('app.about', {
+            //     url: "/about",
+            //     templateUrl: "partials/about.html"
+            // })
     })

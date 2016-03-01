@@ -1,25 +1,11 @@
 angular.module('app.services', [])
 
-    .factory("PostSrv", function ($log, $firebaseArray) {
+    .factory("PostSrv", function ($log, $rootScope, $firebaseArray, LikeSrv) {
         var _postsRef = new Firebase("https://happy125.firebaseio.com/posts");
         var _posts = $firebaseArray(_postsRef.orderByPriority());
-
         function getPriority(post) {
             return -moment(post.id).unix();
         }
-
-        // Like object 가져오기
-        // _posts.$loaded().then(function () {
-        //     if (AuthSrv.isLoggedIn()) {
-        //         var uid = AuthSrv.getUid();
-        //         var likeObj = getMyLikeObject(uid);
-        //         likeObj.$loaded().then(function () {
-        //             angular.forEach(likeObj, function (value, key) {
-        //                 PostSrv._posts.$getRecord(key)._likedByMe = new Boolean(value);
-        //             })
-        //         });
-        //     }
-        // });
 
         // Production 코드에선 삭제
         // _postsRef.on("value", function (snapshot) {
@@ -27,9 +13,7 @@ angular.module('app.services', [])
         //         var priority = getPriority(childSnapshot.val());
         //         childSnapshot.ref().setPriority(priority);
         //     });
-
-            
-            
+        
         //     // componentHandler.upgradeAllRegistered();
         // });
 
@@ -63,22 +47,14 @@ angular.module('app.services', [])
         // functions
         function like(post, uid) {
             var path = getLikePath(post, uid);
-            if (!this.isLiked(post, uid)) {
-                likeRef.child(path).set(true);
-                uplike(post);
-            }
-
-            $log.debug("Liked");
+            likeRef.child(path).set(true);
+            uplike(post);
         }
 
         function unlike(post, uid) {
             var path = getLikePath(post, uid);
-            if (this.isLiked(post, uid)) {
-                likeRef.child(path).remove();
-                downlike(post);
-            }
-
-            $log.debug("Unliked");
+            likeRef.child(path).remove();
+            downlike(post);
         }
 
         function uplike(post) {
