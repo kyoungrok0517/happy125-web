@@ -1,11 +1,11 @@
 <div ng-class="{ 'ng-hide': !currentAuth }" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col-phone mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--6-col-desktop mdl-cell--3-offset-desktop">
-    <div class="mdl-card__title">
+    <!--<div class="mdl-card__title">
         <h3>감사의 글 적기</h3>
-    </div>
+    </div>-->
 
     <div class="mdl-card__supporting-text">
         <form>
-            <div class="mdl-textfield mdl-js-textfield">
+            <div class="mdl-textfield mdl-textfield--floating-label mdl-js-textfield">
                 <textarea ng-model="post.content" class="mdl-textfield__input" type="text" rows="5" id="new-post-field"></textarea>
                 <label class="mdl-textfield__label" for="new-post-field">감사의 글을 적어주세요.</label>
             </div>
@@ -13,7 +13,7 @@
     </div>
 
     <div class="mdl-card__actions mdl-card--border">
-        <button id="new-post-button" ng-click="write();" class="mdl-button mdl-js-button  mdl-js-ripple-effect mdl-button--raised mdl-button--accent">
+        <button id="new-post-button" ng-disabled="!post.content" ng-click="write();" class="mdl-button mdl-js-button  mdl-js-ripple-effect mdl-button--raised mdl-button--accent">
             게시
         </button>
     </div>
