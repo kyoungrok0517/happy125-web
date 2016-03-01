@@ -10,9 +10,11 @@ angular.module("app.controllers", [])
     .controller("PostCtrl", function ($log, $scope, $rootScope, $firebaseArray, PostSrv, LikeSrv) {
         // Posts
         $scope.posts = PostSrv.posts;
-        $scope.posts.$loaded().then(function (posts) {
+        $scope.posts.$watch(function () {
+            var posts = $scope.posts;
+            
             // isAuthor
-            if ($scope.currentAuth) {
+            if ($rootScope.currentAuth) {
                 // isAuthor
                 angular.forEach(posts, function (post) {
                     if (post.uid === $rootScope.currentAuth.uid) {
@@ -21,15 +23,13 @@ angular.module("app.controllers", [])
                 })
                 
                 // Likes
-                var likeObject = LikeSrv.getMyLikeObject($scope.currentAuth.uid);
+                var likeObject = LikeSrv.getMyLikeObject($rootScope.currentAuth.uid);
                 likeObject.$loaded().then(function (data) {
                     angular.forEach(data, function (value, key) {
                         $scope.posts.$getRecord(key)._likedByMe = new Boolean(value);
                     })
                 }, function (error) { });
             }
-        }, function (error) {
-
         });
 
         $scope.toggleLike = function (post) {
@@ -38,12 +38,12 @@ angular.module("app.controllers", [])
                 if (post._likedByMe) {
                     LikeSrv.unlike(post, _uid);
                     post._likedByMe = false;
-                    
+
                     $log.debug("Unlike");
                 } else {
                     LikeSrv.like(post, _uid);
                     post._likedByMe = true;
-                    
+
                     $log.debug("Like");
                 }
             }
