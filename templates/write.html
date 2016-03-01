@@ -1,19 +1,19 @@
 <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col-phone mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--6-col-desktop mdl-cell--3-offset-desktop">
     <div class="mdl-card__title">
-        <h3>Write New Post</h3>
+        <h3>감사의 글 적기</h3>
     </div>
 
     <div class="mdl-card__supporting-text">
         <form>
-            <div class="mdl-textfield mdl-js-textfield">
-                <textarea class="mdl-textfield__input" type="text" rows="5" id="new_post"></textarea>
-                <label class="mdl-textfield__label" for="new_post">감사의 글을 적어주세요.</label>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <textarea ng-model="post.content" class="mdl-textfield__input" type="text" rows="5" id="newPostField"></textarea>
+                <label class="mdl-textfield__label" for="newPostField">감사의 글을 적어주세요.</label>
             </div>
         </form>
     </div>
 
     <div class="mdl-card__actions mdl-card--border">
-        <button class="mdl-button mdl-js-button  mdl-js-ripple-effect mdl-button--raised mdl-button--accent">
+        <button ng-click="write();" class="mdl-button mdl-js-button  mdl-js-ripple-effect mdl-button--raised mdl-button--accent">
             게시
         </button>
     </div>

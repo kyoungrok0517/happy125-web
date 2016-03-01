@@ -1,3 +1,4 @@
+/* global moment */
 /* global _ */
 /* global Firebase */
 angular.module("app", ["firebase", "ngStorage"])
@@ -77,7 +78,21 @@ angular.module("app", ["firebase", "ngStorage"])
         var _posts = $firebaseArray(_postsRef);
 
         return {
-            posts: _posts
+            posts: _posts,
+            add: function (post) {
+                _posts.$add(post).then(function (rs) {
+                    $log.debug("Add Post:", rs);
+                }, function (error) {
+                    $log.error(error);
+                });
+            },
+            remove: function (post) {
+                _posts.$remove(post).then(function (rs) {
+                    $log.debug("Remove Post:", rs);
+                }, function (error) {
+                    $log.error(error);
+                });
+            }
         }
     })
 
@@ -106,7 +121,7 @@ angular.module("app", ["firebase", "ngStorage"])
                 if (_current_value <= 0) {
                     return 0;
                 } else {
-                    return _current_value - 1;    
+                    return _current_value - 1;
                 }
             });
         }
@@ -178,18 +193,35 @@ angular.module("app", ["firebase", "ngStorage"])
         }
     })
 
-    .directive('writeFormDirective', function ($log, AuthSrv) {
+    .directive('writeFormDirective', function ($log, AuthSrv, PostSrv) {
         return {
             restrict: 'A',
             templateUrl: "templates/write.html",
             replace: true,
             link: function (scope, element, attrs) {
+                scope.write = function () {
+                    if (AuthSrv.isLoggedIn()) {
+                        var post = scope.post;
+                        post.email = AuthSrv.getEmail();
+                        post.uid = AuthSrv.getUid();
+                        var now = moment().toJSON();
+                        post.id = now;
+                        post.shared_at = now;
+                        post.likes = 0;
 
+                        PostSrv.add(post);
+                    } else {
+                        $log.error("새로운 글 작성은 로그인 상태에서만 가능합니다.");
+                    }
+                    
+                    // reset the post
+                    scope.post = {};
+                }
             }
         }
     })
 
-    .directive('postDirective', function ($log, $firebaseArray, AuthSrv, LikeSrv) {
+    .directive('postDirective', function ($log, $firebaseArray, AuthSrv, LikeSrv, PostSrv) {
         return {
             restrict: 'A',
             templateUrl: "templates/post.html",
@@ -211,7 +243,7 @@ angular.module("app", ["firebase", "ngStorage"])
                             likeButton.removeClass('mdl-color-text--pink');
                         } else {
                             LikeSrv.like(post, uid);
-                            likeButton.addClass('mdl-color-text--pink');    
+                            likeButton.addClass('mdl-color-text--pink');
                         }
                     });
                     
@@ -235,7 +267,7 @@ angular.module("app", ["firebase", "ngStorage"])
                     }
 
                     scope.delete = function (uid) {
-                        $log.debug('delete:', uid);
+                        PostSrv.remove(post);
                     }
                 }  
                 
