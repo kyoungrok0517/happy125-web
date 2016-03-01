@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "browser-sync": "browser-sync start --server --files=\"*.html, templates/*.html, media/css/*.css, media/js/*.js\""
+    "server": "browser-sync start --server --files=\"*.html, templates/*.html, media/css/*.css, media/js/*.js\""
   },
   "author": "",
   "license": "ISC",
