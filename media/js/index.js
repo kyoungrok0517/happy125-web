@@ -147,19 +147,17 @@ angular.module("app", ["firebase", "ngStorage"])
         return {
             like: function (post, uid) {
                 var path = getPath(post, uid);
-                if (!likeSnapshot.child(path).exists()) {
-                    // like the post
+                if (!this.isLiked(post, uid)) {
                     likeRef.child(path).set(true);
-                
-                    // uplike
                     uplike(post);
                 }
             },
             unlike: function (post, uid) {
                 var path = getPath(post, uid);
-                likeRef.child(path).remove();
-
-                downlike(post);
+                if (this.isLiked(post, uid)) {
+                    likeRef.child(path).remove();
+                    downlike(post);
+                }
             },
             isLiked: function (post, uid) {
                 var path = getPath(post, uid);
