@@ -3,6 +3,7 @@ angular.module('app.services', [])
     .factory("PostSrv", function ($log, $rootScope, $firebaseArray, LikeSrv) {
         var _postsRef = new Firebase("https://happy125.firebaseio.com/posts");
         var _posts = $firebaseArray(_postsRef.orderByPriority());
+        
         function getPriority(post) {
             return -moment(post.id).unix();
         }
@@ -29,8 +30,12 @@ angular.module('app.services', [])
                 // Likes
                 var likeObject = LikeSrv.getMyLikeObject($rootScope.currentAuth.uid);
                 likeObject.$loaded().then(function (data) {
+                    var post = null;
                     angular.forEach(data, function (value, key) {
-                        _posts.$getRecord(key)._likedByMe = new Boolean(value);
+                        post = _posts.$getRecord(key);
+                        if (post) {
+                            post._likedByMe = new Boolean(value);    
+                        }
                     })
                 }, function (error) { });
             }
@@ -47,8 +52,10 @@ angular.module('app.services', [])
                 });
             },
             remove: function (post) {
+                var deletedPost = angular.copy(post);
                 _posts.$remove(post).then(function (rs) {
                     $log.debug("Remove Post:", rs);
+                    LikeSrv.removeLike(deletedPost, $rootScope.currentAuth.uid);
                 }, function (error) {
                     $log.error(error);
                 });
@@ -71,9 +78,13 @@ angular.module('app.services', [])
         }
 
         function unlike(post, uid) {
+            removeLike(post, uid);
+            downlike(post);
+        }
+        
+        function removeLike(post, uid) {
             var path = getLikePath(post, uid);
             likeRef.child(path).remove();
-            downlike(post);
         }
 
         function uplike(post) {
@@ -112,6 +123,7 @@ angular.module('app.services', [])
         return {
             like: like,
             unlike: unlike,
+            removeLike: removeLike,
             getMyLikeObject: getMyLikeObject
         };
     })
