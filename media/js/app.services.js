@@ -16,6 +16,25 @@ angular.module('app.services', [])
         
         //     // componentHandler.upgradeAllRegistered();
         // });
+        
+        _posts.$watch(function () {
+            if ($rootScope.currentAuth) {
+                // isAuthor
+                angular.forEach(_posts, function (post) {
+                    if (post.uid === $rootScope.currentAuth.uid) {
+                        post._isAuthor = true;
+                    }
+                })
+                
+                // Likes
+                var likeObject = LikeSrv.getMyLikeObject($rootScope.currentAuth.uid);
+                likeObject.$loaded().then(function (data) {
+                    angular.forEach(data, function (value, key) {
+                        _posts.$getRecord(key)._likedByMe = new Boolean(value);
+                    })
+                }, function (error) { });
+            }
+        });
 
         return {
             posts: _posts,

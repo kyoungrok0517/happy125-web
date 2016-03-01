@@ -10,27 +10,6 @@ angular.module("app.controllers", [])
     .controller("PostCtrl", function ($log, $scope, $rootScope, $firebaseArray, PostSrv, LikeSrv) {
         // Posts
         $scope.posts = PostSrv.posts;
-        $scope.posts.$watch(function () {
-            var posts = $scope.posts;
-            
-            // isAuthor
-            if ($rootScope.currentAuth) {
-                // isAuthor
-                angular.forEach(posts, function (post) {
-                    if (post.uid === $rootScope.currentAuth.uid) {
-                        post._isAuthor = true;
-                    }
-                })
-                
-                // Likes
-                var likeObject = LikeSrv.getMyLikeObject($rootScope.currentAuth.uid);
-                likeObject.$loaded().then(function (data) {
-                    angular.forEach(data, function (value, key) {
-                        $scope.posts.$getRecord(key)._likedByMe = new Boolean(value);
-                    })
-                }, function (error) { });
-            }
-        });
 
         $scope.toggleLike = function (post) {
             if ($rootScope.currentAuth) {

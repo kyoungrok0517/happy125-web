@@ -36,11 +36,11 @@ angular.module('app.directives', [])
             scope: false,
             link: function (scope, element, attrs) {                
                 // perform mdl upgrade on first & last
-                if (scope.$last || scope.$first) {
+                // if (scope.$last || scope.$first) {
                     element.ready(function () {
                         componentHandler.upgradeAllRegistered()
                     });
-                }
+                // }
             }
         }
     })
