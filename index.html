@@ -92,9 +92,13 @@
                 <div class="mdl-layout-spacer"></div>
                 <!-- Login Panel -->
                 <div id="loginPanel" class="" ng-controller="LoginCtrl">
-                    <button ng-if="!isLoggedIn" ng-click="loginWithFacebook()" title="Login with Facebook" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--facebook">
-                        <i class="fa fa-facebook fa-fw"></i> Login with Facebook</button>
-                    <button ng-if="isLoggedIn" ng-click="logout()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-js-ripple-effect">Logout</button>
+                    <button id="facebook-login-button" ng-if="!isLoggedIn" ng-click="loginWithFacebook()" title="글을 작성하시려면 로그인해주세요." class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--facebook">
+                        <i class="fa fa-facebook fa-fw"></i> Login with Facebook
+                    </button>
+                    <span class="mdl-tooltip mdl-tooltip--bottom mdl-tooltip--large" for="facebook-login-button">글을 작성하시려면 <br/>로그인해주세요.</span>
+
+                    <button id="logout-button" ng-if="isLoggedIn" ng-click="logout()" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary mdl-js-ripple-effect">Logout</button>
+                    <span class="mdl-tooltip mdl-tooltip--bottom mdl-tooltip--large" for="logout-button">로그아웃</span>
                 </div>
             </div>
             <!--<div class="mdl-layout--large-screen-only mdl-layout__header-row">
@@ -139,8 +143,9 @@
                 <button ng-click="logout()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" type="button" value="Logout">Logout</button>
 
                 <!-- Facebook -->
-                <button ng-click="loginWithFacebook()" title="Login with Facebook" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--facebook">
-                    <i class="fa fa-facebook fa-fw"></i> Login with Facebook</button>
+                <button ng-click="loginWithFacebook()" title="글을 작성하시려면 로그인해주세요." class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--facebook">
+                    <i class="fa fa-facebook fa-fw"></i> Login with Facebook
+                </button>
             </div>
 
             <div class="mdl-layout__tab-panel" id="register" ng-controller="RegisterCtrl">

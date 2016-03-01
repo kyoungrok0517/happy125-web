@@ -76,14 +76,20 @@ angular.module("app", ["firebase", "ngStorage"])
     .factory("PostSrv", function ($log, $firebaseArray) {
         var _postsRef = new Firebase("https://happy125.firebaseio.com/posts");
         var _posts = $firebaseArray(_postsRef.orderByPriority());
-        
+
         function getPriority(post) {
             return -moment(post.id).unix();
         }
 
-        // _postsRef.on("value", function (snapshot) {
-        //     // componentHandler.upgradeAllRegistered();
-        // });
+        // Production 코드에선 삭제
+        _postsRef.on("value", function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var priority = getPriority(childSnapshot.val());
+                childSnapshot.ref().setPriority(priority);
+            });
+            
+            // componentHandler.upgradeAllRegistered();
+        });
 
         return {
             posts: _posts,
@@ -208,6 +214,11 @@ angular.module("app", ["firebase", "ngStorage"])
             templateUrl: "templates/write.html",
             replace: true,
             link: function (scope, element, attrs) {
+                var isLoggedIn = AuthSrv.isLoggedIn();
+                if (isLoggedIn) {
+                    element.removeClass('ng-hide');
+                }
+
                 scope.write = function () {
                     if (AuthSrv.isLoggedIn()) {
                         var post = scope.post;
