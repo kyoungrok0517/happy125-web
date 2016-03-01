@@ -123,8 +123,8 @@ angular.module('app.services', [])
 
     .factory("AuthSrv", function ($log, $localStorage, $rootScope, $window, $firebaseAuth) {
         var _ref = new Firebase("https://happy125.firebaseio.com");
-        var _auth = $firebaseAuth(_ref);
-        var _authData = _ref.getAuth();
+        var _authObject = $firebaseAuth(_ref);
+        var _currentAuth = $rootScope.currentAuth;
 
         function loginWithFacebook() {
             _ref.authWithOAuthRedirect("facebook", function (error, authData) {
@@ -168,30 +168,25 @@ angular.module('app.services', [])
         }
 
         return {
+            authObject: _authObject,
             loginWithFacebook: loginWithFacebook,
             loginWithEmail: loginWithEmail,
             logout: logout,
             registerWithEmail: registerWithEmail,
-            auth: _auth,
-            authData: _authData,
-            isLoggedIn: function () {
-                return this.authData;
-            },
             getUid: function () {
-                if (this.authData) {
-                    return this.authData.uid || null;
+                if (_currentAuth) {
+                    return _currentAuth.uid || null;
                 } else {
                     return null;
                 }
             },
             getEmail: function () {
-                var authData = this.authData;
-                if (authData) {
-                    var provider = authData.provider;
+                if (_currentAuth) {
+                    var provider = _currentAuth.provider;
                     if (provider === 'facebook') {
-                        return authData.facebook.email;
+                        return _currentAuth.facebook.email;
                     } else if (provider === 'email') {
-                        return authData.email.email;
+                        return _currentAuth.email.email;
                     } else {
                         return null;
                     }
@@ -199,8 +194,8 @@ angular.module('app.services', [])
                     return null;
                 }
             },
-            isAuthor: function (email) {
-                return this.getEmail() === email;
+            isAuthor: function (post) {
+                return this.getEmail() === post.email;
             }
         }
     })

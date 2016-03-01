@@ -6,7 +6,4 @@ angular.module('app.core', ["ui.router", "firebase", "ngStorage", 'app.controlle
     .run(function ($rootScope, $localStorage, $sessionStorage, $log, AuthSrv) {
         // Setup localStorage
         $rootScope.$storage = $localStorage;
-        
-        // Log-in state
-        $rootScope.isLoggedIn = AuthSrv.isLoggedIn();
     })

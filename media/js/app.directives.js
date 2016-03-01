@@ -1,18 +1,18 @@
 angular.module('app.directives', [])
 
-    .directive('writeFormDirective', function ($log, AuthSrv, PostSrv) {
+    .directive('writeFormDirective', function ($log, $rootScope, AuthSrv, PostSrv) {
         return {
             restrict: 'A',
             templateUrl: "templates/write.html",
             replace: true,
             link: function (scope, element, attrs) {
-                var isLoggedIn = AuthSrv.isLoggedIn();
-                if (isLoggedIn) {
+                var currentAuth = $rootScope.currentAuth;
+                if (currentAuth) {
                     element.removeClass('ng-hide');
                 }
 
                 scope.write = function () {
-                    if (AuthSrv.isLoggedIn()) {
+                    if (currentAuth) {
                         var post = scope.post;
                         post.email = AuthSrv.getEmail();
                         post.uid = AuthSrv.getUid();
@@ -33,7 +33,7 @@ angular.module('app.directives', [])
         }
     })
 
-    .directive('postDirective', function ($log, $firebaseArray, AuthSrv, LikeSrv, PostSrv) {
+    .directive('postDirective', function ($log, $rootScope, AuthSrv, LikeSrv, PostSrv) {
         return {
             restrict: 'A',
             templateUrl: "templates/post.html",
@@ -42,8 +42,8 @@ angular.module('app.directives', [])
                 var post = scope.post;
                 
                 // Check log-in state
-                var isLoggedIn = AuthSrv.isLoggedIn();
-                if (isLoggedIn) {
+                var currentAuth = $rootScope.currentAuth;
+                if (currentAuth) {
                     var uid = AuthSrv.getUid();
                     
                     // enable & init like button
@@ -74,7 +74,7 @@ angular.module('app.directives', [])
                 
                 // enable or disable edit menu 
                 // depending on the authorship
-                var isAuthor = AuthSrv.isAuthor(post.email);
+                var isAuthor = AuthSrv.isAuthor(post);
                 if (isAuthor) {
                     var editButton = angular.element(element.find('button')[0]);
                     editButton.removeClass('ng-hide');

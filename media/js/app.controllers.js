@@ -3,6 +3,10 @@
 /* global Firebase */
 angular.module("app.controllers", [])
 
+    .controller("AppCtrl", function($scope, $log, AuthSrv) {
+        
+    })
+
     .controller("PostCtrl", function ($log, $scope, $firebaseArray, PostSrv) {
         $scope.posts = PostSrv.posts;
     })

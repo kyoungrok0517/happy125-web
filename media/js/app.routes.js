@@ -7,12 +7,13 @@ angular.module('app.routes', [])
                 url: '/app',
                 abstract: true,
                 template: '<ui-view/>',
-                controller: function($rootScope, currentAuth) {
+                controller: function ($rootScope, $log, currentAuth, AuthSrv) {
                     $rootScope.currentAuth = currentAuth;
+                    $log.debug(currentAuth);
                 },
                 resolve: {
-                    "currentAuth": ["AuthSrv", "$log", function (AuthSrv, $log) {
-                        return AuthSrv.auth.$waitForAuth();
+                    "currentAuth": ["AuthSrv", function (AuthSrv) {
+                        return AuthSrv.authObject.$waitForAuth();
                     }]
                 }
             })
