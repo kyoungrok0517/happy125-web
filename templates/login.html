@@ -1,0 +1,47 @@
+<div class="mdl-layout__tab-panel" id="login" ng-controller="LoginCtrl">
+    <h1>Login</h1>
+
+    <!-- Login Form -->
+    <form id="loginForm" ng-submit="login(user.email, user.password);">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="text" id="email" name="email" ng-model="user.email">
+            <label class="mdl-textfield__label" for="email">Email</label>
+            <!--<span class="mdl-textfield__error">Letters and spaces only</span>-->
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="password" id="password" name="password" ng-model="user.password">
+            <label class="mdl-textfield__label" for="password">Password</label>
+        </div>
+        <div>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit" value="Submit">Login</button>
+        </div>
+    </form>
+
+    <!-- Logout -->
+    <button ng-click="logout()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect" type="button" value="Logout">Logout</button>
+
+    <!-- Facebook -->
+    <button ng-click="loginWithFacebook()" title="글을 작성하시려면 로그인해주세요." class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--facebook">
+        <i class="fa fa-facebook fa-fw"></i> Login with Facebook
+    </button>
+</div>
+
+<div class="mdl-layout__tab-panel" id="register" ng-controller="RegisterCtrl">
+    <h1>Register</h1>
+
+    <!-- Register Form -->
+    <form id="registerForm" ng-submit="register(user.email, user.password)">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="text" id="email" ng-model="user.email">
+            <label class="mdl-textfield__label" for="email">Email</label>
+            <!--<span class="mdl-textfield__error">Letters and spaces only</span>-->
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input class="mdl-textfield__input" type="password" id="password" ng-model="user.password">
+            <label class="mdl-textfield__label" for="password">Password</label>
+        </div>
+        <div>
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit" value="Submit">Register</button>
+        </div>
+    </form>
+</div>

@@ -122,9 +122,8 @@ angular.module('app.services', [])
     })
 
     .factory("AuthSrv", function ($log, $localStorage, $rootScope, $window, $firebaseAuth) {
-        // TODO: Auth.$requireAuth();
-        
         var _ref = new Firebase("https://happy125.firebaseio.com");
+        var _auth = $firebaseAuth(_ref);
         var _authData = _ref.getAuth();
 
         function loginWithFacebook() {
@@ -173,6 +172,7 @@ angular.module('app.services', [])
             loginWithEmail: loginWithEmail,
             logout: logout,
             registerWithEmail: registerWithEmail,
+            auth: _auth,
             authData: _authData,
             isLoggedIn: function () {
                 return this.authData;
