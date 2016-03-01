@@ -75,11 +75,20 @@ angular.module("app", ["firebase", "ngStorage"])
 
     .factory("PostSrv", function ($log, $firebaseArray) {
         var _postsRef = new Firebase("https://happy125.firebaseio.com/posts");
-        var _posts = $firebaseArray(_postsRef);
+        var _posts = $firebaseArray(_postsRef.orderByPriority());
+        
+        function getPriority(post) {
+            return -moment(post.id).unix();
+        }
+
+        // _postsRef.on("value", function (snapshot) {
+        //     // componentHandler.upgradeAllRegistered();
+        // });
 
         return {
             posts: _posts,
             add: function (post) {
+                post.$priority = getPriority(post);
                 _posts.$add(post).then(function (rs) {
                     $log.debug("Add Post:", rs);
                 }, function (error) {
@@ -271,8 +280,8 @@ angular.module("app", ["firebase", "ngStorage"])
                     }
                 }  
                 
-                // perform mdl upgrade
-                if (scope.$last === true) {
+                // perform mdl upgrade on first & last
+                if (scope.$last || scope.$first) {
                     element.ready(function () {
                         componentHandler.upgradeAllRegistered()
                     });
