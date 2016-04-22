@@ -45,18 +45,30 @@
     <link rel="canonical" href="http://www.example.com/">
     -->
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=ko">
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Noto+Sans:400,700'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.deep_orange-blue.min.css" />
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.deep_orange-blue.min.css" />
     <link rel="stylesheet" href="./media/css/styles.css">
     <link rel="stylesheet" href="./media/css/index.css">
     <link rel="stylesheet" href="./media/css/social-sharing.css">
     <style>
+        .about-card.mdl-card {
+          width: 512px;
+        }
 
+        .about-card > .mdl-card__title {
+          color: #fff;
+          height: 176px;
+          background: url('../media/images/banner.jpg') center / cover;
+        }
+
+        .about-card > .mdl-card__supporting-text {
+            margin-top: 0 !important;
+        }
     </style>
 
     <!-- scripts -->
-    <script src="https://code.getmdl.io/1.1.1/material.min.js"></script>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
@@ -80,11 +92,6 @@
     <script src="./media/js/app.controllers.js"></script>
     <script src="./media/js/app.services.js"></script>
     <script src="./media/js/app.directives.js"></script>
-</head>
-</head>
-</head>
-</head>
-</head>
 </head>
 
 <body ng-app="app" class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
@@ -139,32 +146,25 @@
 
             <!-- About -->
             <div class="mdl-layout__tab-panel" id="about">
-                <button id="show-dialog" type="button" class="mdl-button">Show Dialog</button>
-                <dialog class="mdl-dialog">
-                    <h4 class="mdl-dialog__title">Allow data collection?</h4>
-                    <div class="mdl-dialog__content">
-                        <p>
-                            Allowing us to collect data will let us get you the information you want faster.
-                            <p>
-                    </div>
-                    <div class="mdl-dialog__actions">
-                        <button type="button" class="mdl-button">Agree</button>
-                        <button type="button" class="mdl-button close">Disagree</button>
-                    </div>
-                </dialog>
-                <script>
-                    var dialog = document.querySelector('dialog');
-                    var showDialogButton = document.querySelector('#show-dialog');
-                    if (! dialog.showModal) {
-                    dialogPolyfill.registerDialog(dialog);
-                    }
-                    showDialogButton.addEventListener('click', function() {
-                    dialog.showModal();
-                    });
-                    dialog.querySelector('.close').addEventListener('click', function() {
-                    dialog.close();
-                    });
-                </script>
+                <div class="about-card mdl-card mdl-shadow--2dp">
+                  <div class="mdl-card__title">
+                    <!-- <h2 class="mdl-card__title-text">KAISTogether란?</h2> -->
+                  </div>
+                  <div class="mdl-card__supporting-text">
+                    <h3>KAISTogether란?</h3>
+                    <p>
+                    KAISTogether는 카이스트 구성원이 함께하는 공간입니다.
+                    </p>
+                    <p>
+                        감사하고 싶은 일이나 기쁘고 즐거운 일, 때론 그냥 소소한 일상에 대한 한 줄 글을 적으시면 됩니다. 
+                        하루 다섯 가지씩 적는 습관을 가지면 좋다고도 하고요.
+                    </p>
+                    <p>
+                        짧게는 3년에서 길게는 10년 남짓 카이스트에 머무는 동안 우리 서로 격려하고 소통하며 긍정의 기운을 전해나가요 ~ ^^
+                    </p>
+                  </div>
+                  
+                </div>
             </div>
 
             <!-- Footer -->
