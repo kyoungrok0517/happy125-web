@@ -27,14 +27,18 @@
         <button ng-click="toggleLike(post)" ng-class="{ 'mdl-color-text--pink': post._likedByMe }" ng-disabled="!currentAuth" id="like-button-{{$index}}"
             class="mdl-button">
             Like
+            <!--<i class="material-icons">favorite</i>-->
         </button>
         <span for="like-button-{{$index}}" class="mdl-tooltip mdl-tooltip--top">Like</span>
 
+        <!--<button class="mdl-button mdl-button--icon mdl-color-text--blue-grey-300"><i class="material-icons">favorite</i></button>
+        <button id="share-post-1" class="mdl-button mdl-button--icon mdl-color-text--blue-grey-300"><i class="material-icons">share</i></button>-->
+
         <!-- Share Button -->
-        <!--<button ng-attr-disabled="!currentAuth" id="share-button-{{$index}}" class="mdl-button mdl-button--icon mdl-color-text--blue-grey-300">
+        <!--<button ng-disabled="!currentAuth" id="share-button-{{$index}}" class="mdl-button mdl-button--icon mdl-color-text--blue-grey-300">
             <i class="material-icons">share</i>
         </button>
         <span for="share-button-{{$index}}" class="mdl-tooltip mdl-tooltip--top">Share</span>-->
-        <div class="mdl-layout-spacer"></div>
+        <!--<div class="mdl-layout-spacer"></div>-->
     </div>
 </div>

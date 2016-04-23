@@ -11,9 +11,9 @@ angular.module('app.directives', [])
                         var post = scope.post;
                         post.email = $rootScope.currentAuth.facebook.email;
                         post.uid = $rootScope.currentAuth.uid;
-                        var now = moment().toJSON();
-                        post.id = now;
-                        post.shared_at = now;
+                        var now = moment();
+                        post.id = now.toJSON();
+                        post.shared_at = now.unix().toString();
                         post.likes = 0;
 
                         PostSrv.add(post);
