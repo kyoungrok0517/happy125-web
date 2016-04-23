@@ -1,5 +1,6 @@
 <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col-phone mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--6-col-desktop mdl-cell--3-offset-desktop">
     <div class="mdl-card__title">
+        <!--<i class="material-icons mdl-list__item-avatar">person</i>-->
         <h6 class="mdl-card__title-text">{{ post.email }}</h6>
         <h7 class="mdl-card__subtitle-text">{{ post.shared_at*1000 | date:'medium' }}</h7>
     </div>
@@ -16,14 +17,15 @@
     <div class="mdl-card__supporting-text">
         <p>{{ post.content }}</p>
         <!--<h6>{{ post.id | date : 'medium' }}</h6>-->
-        <div class="material-icons mdl-badge mdl-badge--overlap mdl-color-text--pink" data-badge="{{ post.likes || 0 }}">favorite</div>
+        <!--<div class="material-icons mdl-badge mdl-badge--overlap mdl-color-text--pink" data-badge="{{ post.likes || 0 }}">favorite</div>-->
     </div>
     <div class="mdl-card__actions mdl-card--border">
         <!--<button class="mdl-button mdl-button--accent mdl-js-button mdl-js-ripple-effect">Read More</button>-->
-        
+
 
         <!-- Like Button -->
-        <button ng-click="toggleLike(post)" ng-class="{ 'mdl-color-text--pink': post._likedByMe }" ng-disabled="!currentAuth" id="like-button-{{$index}}" class="mdl-button">
+        <button ng-click="toggleLike(post)" ng-class="{ 'mdl-color-text--pink': post._likedByMe }" ng-disabled="!currentAuth" id="like-button-{{$index}}"
+            class="mdl-button">
             Like
         </button>
         <span for="like-button-{{$index}}" class="mdl-tooltip mdl-tooltip--top">Like</span>
