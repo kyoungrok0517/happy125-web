@@ -4,22 +4,17 @@
 angular.module("app.controllers", [])
 
     .controller("AppCtrl", function ($scope, $log, AuthSrv) {
-        $scope.loadMorePosts = function loadMorePosts() {
-            $log.info('loadMorePosts()');
-        }
+
     })
 
     .controller("PostCtrl", function ($log, $scope, $rootScope, $firebaseArray, PostSrv, LikeSrv) {
         // Posts
         $scope.posts = PostSrv.posts;
-
-        $scope.loadMore = function() {            
-            if ($scope.posts.busy) {
-                return;
-            }            
+        $scope.posts.busy = true;
+        $scope.posts.scroll.next(5);
+        $scope.loadMore = function loadMore() {
             $scope.posts.busy = true;
-            $log.info("loadMore()");
-            $scope.posts.scroll.next(3);
+            $scope.posts.scroll.next(5);
         }
 
         $scope.toggleLike = function (post) {

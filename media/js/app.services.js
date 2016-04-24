@@ -83,7 +83,9 @@ angular.module('app.services', [])
                     }
 
                     return post;
-                }
+                },
+                busy: false,
+                done: false
             });
 
             return function (listRef) {
@@ -97,8 +99,9 @@ angular.module('app.services', [])
         var scrollRef = new Firebase.util.Scroll(baseRef, '$priority');
         var _posts = $postArray(scrollRef);
         _posts.scroll = scrollRef.scroll;
-        _posts.busy = false;
         scrollRef.on('value', function (snap) {
+            $log.debug('posts loaded');
+            
             _posts.busy = false;
         });
 
