@@ -92,6 +92,14 @@
         .post-card .mdl-card__subtitle-text {
             align-self: flex-start;
         }
+        
+        .load-more-container {
+            text-align: center;
+        }
+        
+        .load-more-container .load-more-btn {
+            width: 100%;
+        } 
     </style>
 
     <!-- material -->
@@ -113,9 +121,9 @@
     <!-- ui-router -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
     <!-- ngInfiniteScroll -->
-    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="
+    <!--<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.2.2/ng-infinite-scroll.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.2.2/ng-infinite-scroll.js"></script>-->
 
     <!-- My -->
     <script src="./media/js/app.js"></script>
@@ -184,8 +192,8 @@
                         </div>
                     </div>
                     <!-- Load More -->
-                    <div class="mdl-cell mdl-cell--12-col" style="text-align: center;">
-                        <button class="mdl-button mdl-js-button mdl-button--accent" ng-click="loadMore()" ng-show="!posts.busy && !posts.done">
+                    <div class="load-more-container mdl-cell mdl-cell--4-col-phone mdl-cell--6-col-tablet mdl-cell--6-col-desktop mdl-cell--1-offset-tablet mdl-cell--3-offset-desktop">
+                        <button class="load-more-btn mdl-button mdl-js-button mdl-button--accent" ng-click="loadMore()" ng-show="!posts.busy && !posts.done">
                             Load More
                         </button>
                         <div class="mdl-spinner mdl-js-spinner is-active" ng-show="posts.busy"></div>
