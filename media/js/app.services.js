@@ -218,9 +218,9 @@ angular.module('app.services', [])
         function loginWithFacebook() {
             _ref.authWithOAuthRedirect("facebook", function (error, authData) {
                 if (error) {
-                    console.log("Login Failed!", error);
+                    $log.error("Login Failed!", error);
                 } else {
-                    console.log("Authenticated successfully with payload:", authData);
+                    $log.debug("Authenticated successfully with payload:", authData);
                 }
             }, { 'scope': 'email,public_profile' });
         }
@@ -231,9 +231,9 @@ angular.module('app.services', [])
                 password: password
             }, function (error, authData) {
                 if (error) {
-                    console.log("Error:", error);
+                    $log.error("Error:", error);
                 } else {
-                    console.table(authData);
+                    $log.debug(authData);
                 }
             });
         }
@@ -249,9 +249,9 @@ angular.module('app.services', [])
                 password: password
             }, function (error, userData) {
                 if (error) {
-                    console.log("Error:", error);
+                    $log.error("Error:", error);
                 } else {
-                    console.table(userData);
+                    $log.debug(userData);
                 }
             });
         }
