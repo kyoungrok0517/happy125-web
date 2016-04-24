@@ -21,6 +21,7 @@
 
 .about-card .mdl-card__media {
     height: 180px;
+    background-color: white;
 }
 
 .about-card .mdl-card__media .about-banner {
