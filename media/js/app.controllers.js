@@ -7,6 +7,9 @@ angular.module("app.controllers", [])
         $scope.loadMorePosts = function loadMorePosts() {
             $log.info('loadMorePosts()');
         }
+
+        // set infinite-scroll throttling
+        angular.module('infinite-scroll').value('THROTTLE_MILLISECONDS', 250)
     })
 
     .controller("PostCtrl", function ($log, $scope, $rootScope, $firebaseArray, PostSrv, LikeSrv) {
