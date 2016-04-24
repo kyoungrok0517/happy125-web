@@ -72,6 +72,9 @@ angular.module('app.services', [])
             var $postArray = $firebaseArray.$extend({
                 $$added: function (snapshot, prevChildKey) {
                     var post = snapshot.val();
+                    
+                    // set `$id`
+                    post.$id = snapshot.key();
 
                     // set `ago`
                     post._ago = TimeSrv.getRelative(post.shared_at);

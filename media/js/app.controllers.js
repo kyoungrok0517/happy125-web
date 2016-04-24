@@ -13,8 +13,12 @@ angular.module("app.controllers", [])
         $scope.posts.busy = true;
         $scope.posts.scroll.next(5);
         $scope.loadMore = function loadMore() {
-            $scope.posts.busy = true;
-            $scope.posts.scroll.next(5);
+            if ($scope.posts.scroll.hasNext()) {
+                $scope.posts.busy = true;
+                $scope.posts.scroll.next(5);
+            } else {
+                $scope.posts.done = true;
+            }
         }
 
         $scope.toggleLike = function (post) {
