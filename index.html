@@ -52,6 +52,11 @@
     <link rel="stylesheet" href="./media/css/index.css">
     <link rel="stylesheet" href="./media/css/social-sharing.css">
     <style>
+        [ng\:cloak],
+        [ng-cloak],
+        .ng-cloak {
+            display: none !important;
+        }
         /* About */
         
         .about-card.mdl-card {
@@ -99,7 +104,17 @@
         
         .load-more-container .load-more-btn {
             width: 100%;
-        } 
+        }
+        
+        /* About */
+        .about-card {
+            margin: auto;
+        }
+        
+        /* Load More */
+        .load-more-container {
+            margin-top: 0;
+        }
     </style>
 
     <!-- material -->
@@ -169,7 +184,7 @@
             </div>-->
             <div class="mdl-layout__tab-bar mdl-js-ripple-effect mdl-color--primary-dark">
                 <a href="#home" class="mdl-layout__tab is-active">Posts</a>
-                <a href="#about" class="mdl-layout__tab">About</a>
+                <a href="#about" class="mdl-layout__tab" ng-click="showAbout()">About</a>
             </div>
 
         </header>
@@ -204,8 +219,7 @@
             <!-- About -->
             <div class="mdl-layout__tab-panel" id="about">
                 <div class="mdl-grid">
-                    <!--  mdl-cell--1-offset-tablet mdl-cell--6-col-desktop mdl-cell--3-offset-desktop -->
-                    <div class="about-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
+                    <div ng-hide="!aboutPageClicked" class="about-card mdl-card mdl-shadow--2dp">
                         <div class="mdl-card__title">
                             <!-- <h2 class="mdl-card__title-text">KAISTogether란?</h2> -->
                         </div>

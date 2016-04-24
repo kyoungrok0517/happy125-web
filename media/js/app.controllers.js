@@ -4,7 +4,10 @@
 angular.module("app.controllers", [])
 
     .controller("AppCtrl", function ($scope, $log, AuthSrv) {
-
+        $scope.aboutPageClicked = false;
+        $scope.showAbout = function showAbout() {
+            $scope.aboutPageClicked = true;
+        }
     })
 
     .controller("PostCtrl", function ($log, $scope, $rootScope, $firebaseArray, PostSrv, LikeSrv) {
