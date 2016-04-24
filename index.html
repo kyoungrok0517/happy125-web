@@ -52,9 +52,7 @@
     <link rel="stylesheet" href="./media/css/index.css">
     <link rel="stylesheet" href="./media/css/social-sharing.css">
     <style>
-        [ng-cloak] {
-            display: none !important;
-        }
+
         /* About */
         
         .about-card.mdl-card {
@@ -111,13 +109,16 @@
     <script src="./media/js/app.directives.js"></script>
 </head>
 
-<body ng-cloak ng-app="app" class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
+<body ng-app="app" class="mdl-demo mdl-color--grey-100 mdl-color-text--grey-700 mdl-base">
     <div id="happy-snackbar" class="mdl-js-snackbar mdl-snackbar">
         <div class="mdl-snackbar__text"></div>
         <button class="mdl-snackbar__action" type="button"></button>
     </div>
 
-    <div ng-controller="AppCtrl" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <!-- MDL Spinner Component -->
+    <!--<div class="mdl-spinner mdl-js-spinner is-active"></div>-->
+
+    <div ng-cloak ng-controller="AppCtrl" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <!-- Header -->
         <header class="mdl-layout__header mdl-color--primary mdl-layout__header--waterfall">
             <!--<div class="mdl-layout--large-screen-only mdl-layout__header-row">
