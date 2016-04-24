@@ -1,4 +1,4 @@
-angular.module('app.core', ['ui.router', 'firebase', 'ngStorage', 'app.controllers', 'app.services', 'app.directives'])
+angular.module('app.core', ['ui.router', 'firebase', 'ngStorage', 'infinite-scroll', 'app.controllers', 'app.services', 'app.directives'])
     .config(function ($logProvider) {
         $logProvider.debugEnabled(true);
     })

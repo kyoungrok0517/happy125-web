@@ -1,5 +1,18 @@
 angular.module('app.services', [])
 
+    .factory('$scrollArray', function ($firebaseArray) {
+        return function (ref, field) {
+            // create a special scroll ref
+            var scrollRef = new Firebase.util.Scroll(ref, field);
+            // generate a synchronized array with the ref
+            var list = $firebaseArray(scrollRef);
+            // store the scroll namespace on the array for easy ref
+            list.scroll = scrollRef.scroll;
+
+            return list;
+        }
+    })
+
     .factory('TimeSrv', ['$log', function ($log) {
         moment.locale('ko');
 
@@ -34,52 +47,76 @@ angular.module('app.services', [])
         }
     }])
 
-    .factory("PostSrv", function ($log, $rootScope, $firebaseArray, LikeSrv, TimeSrv) {
-        var _postsRef = new Firebase("https://happy125.firebaseio.com/posts");
-        var _posts = $firebaseArray(_postsRef.orderByPriority());
+    .factory("ListWithTotal", ["$firebaseArray",
+        function ($firebaseArray) {
+            // create a new service based on $firebaseArray
+            var ListWithTotal = $firebaseArray.$extend({
+                getTotal: function () {
+                    var total = 0;
+                    // the array data is located in this.$list
+                    angular.forEach(this.$list, function (rec) {
+                        total += rec.amount;
+                    });
+                    return total;
+                }
+            });
+            return function (listRef) {
+                // create an instance of ListWithTotal (the new operator is required)
+                return new ListWithTotal(listRef);
+            }
+        }
+    ])
+
+    .factory("$postArray", ["$log", "$firebaseArray", "$rootScope", "TimeSrv",
+        function ($log, $firebaseArray, $rootScope, TimeSrv) {
+            var $postArray = $firebaseArray.$extend({
+                $$added: function (snapshot, prevChildKey) {
+                    var post = snapshot.val();
+
+                    // set `ago`
+                    post._ago = TimeSrv.getRelative(post.shared_at);
+
+                    // set `isAuthor`
+                    var currentAuth = $rootScope.currentAuth;
+                    if (currentAuth && post.uid === currentAuth.uid) {
+                        post._isAuthor = true;
+                    }
+
+                    return post;
+                }
+            });
+
+            return function (listRef) {
+                return new $postArray(listRef);
+            }
+        }
+    ])
+
+    .factory("PostSrv", function ($log, $rootScope, $postArray, LikeSrv, TimeSrv) {
+        var baseRef = new Firebase("https://happy125.firebaseio.com/posts");
+        var scrollRef = new Firebase.util.Scroll(baseRef, '$priority');
+        var _posts = $postArray(scrollRef);
+        _posts.scroll = scrollRef.scroll;
+        _posts.busy = false;
+        scrollRef.on('value', function (snap) {
+            _posts.busy = false;
+        });
+
+        // Load and apply my `likes`
+        // var likeObject = LikeSrv.getMyLikeObject($rootScope.currentAuth.uid);
+        // likeObject.$loaded().then(function (data) {
+        //     var post = null;
+        //     angular.forEach(data, function (value, key) {
+        //         post = _posts.$getRecord(key);
+        //         if (post) {
+        //             post._likedByMe = new Boolean(value);
+        //         }
+        //     })
+        // }, function (error) { });
 
         function getPriority(post) {
             return -moment(post.id).unix();
         }
-
-        // Production 코드에선 삭제
-        // _postsRef.on("value", function (snapshot) {
-        //     snapshot.forEach(function (childSnapshot) {
-        //         var priority = getPriority(childSnapshot.val());
-        //         childSnapshot.ref().setPriority(priority);
-        //     });
-
-        //     // componentHandler.upgradeAllRegistered();
-        // });
-
-        _posts.$watch(function () {
-            // set `ago`
-            angular.forEach(_posts, function (post) {
-                post._ago = TimeSrv.getRelative(post.shared_at);
-            })
-
-            if ($rootScope.currentAuth) {
-                // isAuthor
-                angular.forEach(_posts, function (post) {
-                    if (post.uid === $rootScope.currentAuth.uid) {
-                        post._isAuthor = true;
-                    }
-                })
-
-                // Likes
-                var likeObject = LikeSrv.getMyLikeObject($rootScope.currentAuth.uid);
-                likeObject.$loaded().then(function (data) {
-                    var post = null;
-                    angular.forEach(data, function (value, key) {
-                        post = _posts.$getRecord(key);
-                        if (post) {
-                            post._likedByMe = new Boolean(value);
-                        }
-                    })
-                }, function (error) { });
-            }
-        });
-
         return {
             posts: _posts,
             add: function (post) {
