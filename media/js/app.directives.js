@@ -11,10 +11,12 @@ angular.module('app.directives', [])
                         var post = scope.post;
                         post.email = $rootScope.currentAuth.facebook.email;
                         post.uid = $rootScope.currentAuth.uid;
+                        post.likes = 0;
+                        post.author = $rootScope.currentAuth.facebook.displayName;
+                        
                         var now = moment();
                         post.id = now.toJSON();
-                        post.shared_at = now.unix().toString();
-                        post.likes = 0;
+                        post.shared_at = now.unix().toString();                        
 
                         PostSrv.add(post);
                     } else {

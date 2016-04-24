@@ -52,7 +52,6 @@
     <link rel="stylesheet" href="./media/css/index.css">
     <link rel="stylesheet" href="./media/css/social-sharing.css">
     <style>
-
         /* About */
         
         .about-card.mdl-card {
@@ -79,21 +78,23 @@
         .write-card .mdl-textfield {
             width: 100% !important;
         }
-        
         /* Post */
+        
         .post-card .mdl-card__title {
             flex-direction: column;
         }
+        
         .post-card .mdl-card__title-text {
             align-self: flex-start;
             line-height: 180%;
         }
+        
         .post-card .mdl-card__subtitle-text {
             align-self: flex-start;
         }
     </style>
 
-    <!-- scripts -->
+    <!-- material -->
     <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
     <!-- AngularJS -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
@@ -107,10 +108,14 @@
     <!-- lodash -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.5.1/lodash.min.js"></script>
     <!-- moment.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/locale/ko.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/locale/ko.js"></script>
     <!-- ui-router -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
+    <!-- ngInfiniteScroll -->
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.2.2/ng-infinite-scroll.js"></script>
 
     <!-- My -->
     <script src="./media/js/app.js"></script>
@@ -170,7 +175,9 @@
                     <!-- Writing Form -->
                     <div write-form-directive></div>
                     <!-- Posts -->
-                    <div ng-repeat="post in posts" post-directive></div>
+                    <div class="mdl-grid" infinite-scroll="loadMorePosts()" infinite-scroll-distance="3" infinite-scroll-immediate-check="false">
+                        <div ng-repeat="post in posts" post-directive></div>
+                    </div>
                 </div>
             </div>
 

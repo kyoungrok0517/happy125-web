@@ -1,9 +1,43 @@
 angular.module('app.services', [])
 
-    .factory("PostSrv", function ($log, $rootScope, $firebaseArray, LikeSrv) {
+    .factory('TimeSrv', ['$log', function ($log) {
+        moment.locale('ko');
+
+        function getCalendar() {
+            return moment().calendar();
+        }
+
+        function getLongDate(unix) {
+            return moment.unix(unix).format("YYYY년 M월 D일");
+        }
+
+        function getLongDateWithTime(unix) {
+            // 'YYYY년 MMMM D일 A h시 m분',
+            // LLLL : 'YYYY년 MMMM D일 dddd A h시 m분'
+            return moment.unix(unix).format("YYYY년 M월 D일 A h:mm");
+        }
+
+        function getRelative(unix) {
+            return moment.unix(unix).fromNow();
+        }
+
+        function getDefault() {
+            return moment().format();
+        }
+
+        return {
+            getLongDate: getLongDate,
+            getLongDateWithTime: getLongDateWithTime,
+            getRelative: getRelative,
+            getCalendar: getCalendar,
+            getDefault: getDefault
+        }
+    }])
+
+    .factory("PostSrv", function ($log, $rootScope, $firebaseArray, LikeSrv, TimeSrv) {
         var _postsRef = new Firebase("https://happy125.firebaseio.com/posts");
         var _posts = $firebaseArray(_postsRef.orderByPriority());
-        
+
         function getPriority(post) {
             return -moment(post.id).unix();
         }
@@ -14,11 +48,16 @@ angular.module('app.services', [])
         //         var priority = getPriority(childSnapshot.val());
         //         childSnapshot.ref().setPriority(priority);
         //     });
-        
+
         //     // componentHandler.upgradeAllRegistered();
         // });
-        
+
         _posts.$watch(function () {
+            // set `ago`
+            angular.forEach(_posts, function (post) {
+                post._ago = TimeSrv.getRelative(post.shared_at);
+            })
+
             if ($rootScope.currentAuth) {
                 // isAuthor
                 angular.forEach(_posts, function (post) {
@@ -26,7 +65,7 @@ angular.module('app.services', [])
                         post._isAuthor = true;
                     }
                 })
-                
+
                 // Likes
                 var likeObject = LikeSrv.getMyLikeObject($rootScope.currentAuth.uid);
                 likeObject.$loaded().then(function (data) {
@@ -34,7 +73,7 @@ angular.module('app.services', [])
                     angular.forEach(data, function (value, key) {
                         post = _posts.$getRecord(key);
                         if (post) {
-                            post._likedByMe = new Boolean(value);    
+                            post._likedByMe = new Boolean(value);
                         }
                     })
                 }, function (error) { });
@@ -81,7 +120,7 @@ angular.module('app.services', [])
             removeLike(post, uid);
             downlike(post);
         }
-        
+
         function removeLike(post, uid) {
             var path = getLikePath(post, uid);
             likeRef.child(path).remove();

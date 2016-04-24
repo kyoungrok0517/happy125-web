@@ -4,12 +4,32 @@
 angular.module("app.controllers", [])
 
     .controller("AppCtrl", function ($scope, $log, AuthSrv) {
-
+        $scope.loadMorePosts = function loadMorePosts() {
+            $log.info('loadMorePosts()');
+        }
     })
 
     .controller("PostCtrl", function ($log, $scope, $rootScope, $firebaseArray, PostSrv, LikeSrv) {
         // Posts
         $scope.posts = PostSrv.posts;
+
+        // Infite Scroll
+        // create a connection to Firebase
+        // var baseRef = new Firebase('https://webapi.firebaseio.com/rolodex');
+        // // create a scrollable reference
+        // var scrollRef = new Firebase.util.Scroll(baseRef, 'name');
+
+        // // create a synchronized array on scope
+        // $scope.items = $firebaseArray(scrollRef);
+        // // load the first three contacts
+        // scrollRef.scroll.next(3);
+
+        // // This function is called whenever the user reaches the bottom
+        // $scope.loadMore = function () {
+        //     // load the next contact
+        //     scrollRef.scroll.next(1);
+        //     $scope.$broadcast('scroll.infiniteScrollComplete');
+        // };
 
         $scope.toggleLike = function (post) {
             if ($rootScope.currentAuth) {
@@ -47,6 +67,6 @@ angular.module("app.controllers", [])
         $scope.register = AuthSrv.registerWithEmail;
     })
 
-    
 
-    
+
+

@@ -1,8 +1,9 @@
 <div class="post-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col-phone mdl-cell--6-col-tablet mdl-cell--6-col-desktop mdl-cell--1-offset-tablet mdl-cell--3-offset-desktop">
     <div class="mdl-card__title">
         <!--<i class="material-icons">person</i>-->
-        <h6 class="mdl-card__title-text">{{ post.email }}</h6>
-        <h7 class="mdl-card__subtitle-text">{{ post.shared_at*1000 | date:'medium' }}</h7>
+        <h6 class="mdl-card__title-text">{{ post.author || post.email }}</h6>
+        <!--<h7 class="mdl-card__subtitle-text">{{ post.shared_at*1000 | date:'medium' }}</h7>-->
+        <h7 class="mdl-card__subtitle-text">{{ post._ago }}</h7>
     </div>
     <div class="mdl-card__menu">
         <!-- Right aligned menu below button -->
