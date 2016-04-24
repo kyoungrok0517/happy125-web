@@ -4,35 +4,22 @@
 angular.module("app.controllers", [])
 
     .controller("AppCtrl", function ($scope, $log, AuthSrv) {
-        $scope.loadMorePosts = function loadMorePosts() {
-            $log.info('loadMorePosts()');
-        }
 
-        // set infinite-scroll throttling
-        angular.module('infinite-scroll').value('THROTTLE_MILLISECONDS', 250)
     })
 
     .controller("PostCtrl", function ($log, $scope, $rootScope, $firebaseArray, PostSrv, LikeSrv) {
         // Posts
         $scope.posts = PostSrv.posts;
-
-        // Infite Scroll
-        // create a connection to Firebase
-        // var baseRef = new Firebase('https://webapi.firebaseio.com/rolodex');
-        // // create a scrollable reference
-        // var scrollRef = new Firebase.util.Scroll(baseRef, 'name');
-
-        // // create a synchronized array on scope
-        // $scope.items = $firebaseArray(scrollRef);
-        // // load the first three contacts
-        // scrollRef.scroll.next(3);
-
-        // // This function is called whenever the user reaches the bottom
-        // $scope.loadMore = function () {
-        //     // load the next contact
-        //     scrollRef.scroll.next(1);
-        //     $scope.$broadcast('scroll.infiniteScrollComplete');
-        // };
+        $scope.posts.busy = true;
+        $scope.posts.scroll.next(5);
+        $scope.loadMore = function loadMore() {
+            if ($scope.posts.scroll.hasNext()) {
+                $scope.posts.busy = true;
+                $scope.posts.scroll.next(5);
+            } else {
+                $scope.posts.done = true;
+            }
+        }
 
         $scope.toggleLike = function (post) {
             if ($rootScope.currentAuth) {

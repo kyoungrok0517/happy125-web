@@ -92,6 +92,14 @@
         .post-card .mdl-card__subtitle-text {
             align-self: flex-start;
         }
+        
+        .load-more-container {
+            text-align: center;
+        }
+        
+        .load-more-container .load-more-btn {
+            width: 100%;
+        } 
     </style>
 
     <!-- material -->
@@ -101,10 +109,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-i18n/1.5.5/angular-locale_ko-kr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
     <!-- Firebase -->
-    <script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.4.2/firebase.js"></script>
     <script src="https://cdn.firebase.com/libs/firebase-util/0.2.5/firebase-util.min.js"></script>
     <!-- AngularFire -->
-    <script src="https://cdn.firebase.com/libs/angularfire/1.1.4/angularfire.min.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
     <!-- lodash -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.5.1/lodash.min.js"></script>
     <!-- moment.js -->
@@ -113,9 +121,9 @@
     <!-- ui-router -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.18/angular-ui-router.js"></script>
     <!-- ngInfiniteScroll -->
-    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="
+    <!--<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.2.2/ng-infinite-scroll.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngInfiniteScroll/1.2.2/ng-infinite-scroll.js"></script>-->
 
     <!-- My -->
     <script src="./media/js/app.js"></script>
@@ -174,10 +182,22 @@
                 <div ng-controller="PostCtrl" class="mdl-grid">
                     <!-- Writing Form -->
                     <div write-form-directive></div>
+
                     <!-- Posts -->
-                    <!--<div class="mdl-grid" infinite-scroll="loadMorePosts()" infinite-scroll-distance="3">-->
-                        <div ng-repeat="post in posts" post-directive></div>
-                    <!--</div>-->
+                    <div class="mdl-cell mdl-cell--12-col">
+                        <div class="mdl-grid mdl-grid--nesting" style="margin: 0;">
+                            <!--<div class="mdl-grid" infinite-scroll="loadMore()" infinite-scroll-distance="1" infinite-scroll-disabled="posts.busy">-->
+                            <div ng-repeat="post in posts" post-directive></div>
+                            <!--</div>-->
+                        </div>
+                    </div>
+                    <!-- Load More -->
+                    <div class="load-more-container mdl-cell mdl-cell--4-col-phone mdl-cell--6-col-tablet mdl-cell--6-col-desktop mdl-cell--1-offset-tablet mdl-cell--3-offset-desktop">
+                        <button class="load-more-btn mdl-button mdl-js-button mdl-button--accent" ng-click="loadMore()" ng-show="!posts.busy && !posts.done">
+                            Load More
+                        </button>
+                        <div class="mdl-spinner mdl-js-spinner is-active" ng-show="posts.busy"></div>
+                    </div>
                 </div>
             </div>
 
