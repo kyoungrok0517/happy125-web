@@ -12,7 +12,7 @@
 .about-card > .mdl-card__title {
     color: #fff;
     height: 176px;
-    background: url('../media/images/banner.jpg') center / cover;
+    background: url('/media/images/banner.jpg') center / cover;
 }
 
 .about-card > .mdl-card__supporting-text {
@@ -26,9 +26,20 @@
     /*margin-bottom: 0 !important;*/
 }
 
+.write-card > .mdl-card__supporting-text {
+    margin-bottom: 0 !important;
+}
+
 .write-card .mdl-textfield {
     width: 100% !important;
 }
+
+.write-card textarea {
+    border: none;
+    outline: none;
+    margin: 1em 0 1em 0;
+}
+
 /* Post */
 
 .post-card .mdl-card__title {

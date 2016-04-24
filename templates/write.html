@@ -1,14 +1,15 @@
 <div ng-class="{ 'ng-hide': !currentAuth }" class="write-card mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col-phone mdl-cell--6-col-tablet mdl-cell--1-offset-tablet mdl-cell--6-col-desktop mdl-cell--3-offset-desktop">
-    <div class="mdl-card__title mdl-color-text--primary" style="height: 4em;">
+    <div class="mdl-card__title mdl-shadow--2dp mdl-color--accent mdl-color-text--accent-contrast">
         <!--<i class="material-icons md-24">create</i>-->
-        <h4>새로운 글 작성</h4>
+        <h1 class="mdl-card__title-text">New Post</h1>
     </div>
 
     <div class="mdl-card__supporting-text">
-        <div class="mdl-textfield mdl-js-textfield">
+        <textarea ng-model="post.content" placeholder="감사의 글을 입력해주세요." class="mdl-textfield__input" type="text" rows="5" id="new-post-field"></textarea>
+        <!--<div class="mdl-textfield mdl-js-textfield">
             <textarea ng-model="post.content" class="mdl-textfield__input" type="text" rows="5" id="new-post-field"></textarea>
             <label class="mdl-textfield__label" for="new-post-field">감사의 글을 입력해주세요.</label>
-        </div>
+        </div>-->
     </div>
 
     <div class="mdl-card__actions mdl-card--border">
