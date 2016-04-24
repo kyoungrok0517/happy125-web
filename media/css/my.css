@@ -18,6 +18,15 @@
 .about-card > .mdl-card__supporting-text {
     margin-top: 0 !important;
 }
+
+.about-card .mdl-card__media {
+    height: 180px;
+}
+
+.about-card .mdl-card__media .about-banner {
+    width: 100%;
+}
+
 /* Write 폼 */
 
 .write-card > .mdl-card__supporting-text {
