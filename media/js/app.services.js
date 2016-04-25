@@ -146,7 +146,7 @@ angular.module('app.services', [])
     })
 
 
-    .factory("LikeSrv", function ($log, $firebaseArray, $firebaseObject, $rootScope) {
+    .factory("LikeSrv", function ($log, $firebaseArray, $firebaseObject, $rootScope, AuthSrv) {
         var likeUrl = "https://happy125.firebaseio.com/likes",
             likeRef = new Firebase(likeUrl),
             postUrl = "https://happy125.firebaseio.com/posts",
@@ -198,15 +198,18 @@ angular.module('app.services', [])
             return postUrl + "/" + post.$id + "/likes";
         }
 
-        function getMyLikeObject(uid) {
-            return $firebaseObject(likeRef.child(uid));
+        // get my like object
+        var myLikeObj = null;
+        var myAuth = AuthSrv.getAuth();
+        if (myAuth) {
+            myLikeObj = $firebaseObject(likeRef.child(myAuth.uid));
         }
 
         return {
+            myLikeObj: myLikeObj,
             like: like,
             unlike: unlike,
-            removeLike: removeLike,
-            getMyLikeObject: getMyLikeObject
+            removeLike: removeLike
         };
     })
 
@@ -257,11 +260,15 @@ angular.module('app.services', [])
         }
 
         return {
+            authRef: _ref,
             authObject: _authObject,
             loginWithFacebook: loginWithFacebook,
             loginWithEmail: loginWithEmail,
             logout: logout,
             registerWithEmail: registerWithEmail,
+            getAuth: function() {
+                return _ref.getAuth();  
+            },
             getUid: function () {
                 if (_currentAuth) {
                     return _currentAuth.uid || null;
