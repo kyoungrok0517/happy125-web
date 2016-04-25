@@ -11,7 +11,7 @@ angular.module('app.routes', [])
                     $log.debug(currentAuth);
                 },
                 resolve: {
-                    "currentAuth": ["AuthSrv", function (AuthSrv) {
+                    currentAuth: ["AuthSrv", function (AuthSrv) {
                         return AuthSrv.authObject.$waitForAuth();
                     }]
                 }
