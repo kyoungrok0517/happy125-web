@@ -72,7 +72,7 @@ angular.module('app.services', [])
             var $postArray = $firebaseArray.$extend({
                 $$added: function (snapshot, prevChildKey) {
                     var post = snapshot.val();
-                    
+
                     // set `$id`
                     post.$id = snapshot.key();
 
@@ -104,21 +104,22 @@ angular.module('app.services', [])
         _posts.scroll = scrollRef.scroll;
         scrollRef.on('value', function (snap) {
             $log.debug('posts loaded');
-            
             _posts.busy = false;
         });
 
         // Load and apply my `likes`
-        // var likeObject = LikeSrv.getMyLikeObject($rootScope.currentAuth.uid);
-        // likeObject.$loaded().then(function (data) {
-        //     var post = null;
-        //     angular.forEach(data, function (value, key) {
-        //         post = _posts.$getRecord(key);
-        //         if (post) {
-        //             post._likedByMe = new Boolean(value);
-        //         }
-        //     })
-        // }, function (error) { });
+        var myLikeObj = LikeSrv.myLikeObj;
+        myLikeObj.$loaded().then(function () {
+            return _posts.$loaded();
+        }).then(function () {
+            var _p = null;
+            angular.forEach(myLikeObj, function(value, key) {
+                _p = _posts.$getRecord(key);
+                if (_p) {
+                    _p._likedByMe = new Boolean(value);
+                }
+            });
+        });
 
         function getPriority(post) {
             return -moment(post.id).unix();
@@ -266,8 +267,8 @@ angular.module('app.services', [])
             loginWithEmail: loginWithEmail,
             logout: logout,
             registerWithEmail: registerWithEmail,
-            getAuth: function() {
-                return _ref.getAuth();  
+            getAuth: function () {
+                return _ref.getAuth();
             },
             getUid: function () {
                 if (_currentAuth) {
