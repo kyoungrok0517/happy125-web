@@ -1,6 +1,6 @@
 angular.module('app.core', ['ui.router', 'firebase', 'ngStorage', 'app.controllers', 'app.services', 'app.directives'])
     .config(function ($logProvider) {
-        $logProvider.debugEnabled(false);
+        $logProvider.debugEnabled(true);
     })
 
     .run(function ($rootScope, $localStorage, $sessionStorage, $log, AuthSrv) {

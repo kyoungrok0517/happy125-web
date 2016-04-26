@@ -97,37 +97,53 @@ angular.module('app.services', [])
         }
     ])
 
-    .factory("PostSrv", function ($log, $rootScope, $postArray, LikeSrv, TimeSrv) {
-        var baseRef = new Firebase("https://happy125.firebaseio.com/posts");
-        var scrollRef = new Firebase.util.Scroll(baseRef, '$priority');
+    .factory("PostSrv", function ($log, $rootScope, $postArray, LikeSrv, TimeSrv, AuthSrv) {
+        var baseRef = new Firebase("https://happy125.firebaseio.com");
+
+        // merge with `likes` array 
+        // if the user is logged in 
+        var auth = AuthSrv.getAuth();
+        var postRef = null;
+        if (auth) {
+            var myLikesPath = "/likes/" + auth.uid;
+            $log.debug(myLikesPath);
+            postRef = new Firebase.util.NormalizedCollection(
+                baseRef.child("/posts"),
+                baseRef.child(myLikesPath)
+            ).select(
+                "posts.ago",
+                "posts.author",
+                "posts.content",
+                "posts.email",
+                "posts.id",
+                "posts.likes",
+                "posts.shared_at",
+                "posts.uid",
+                { "key": auth.uid + ".$value", "alias": "_likedByMe" }
+                ).ref();
+        } else {
+            postRef = baseRef.child("/posts");
+        }
+
+        // enable scroll
+        var scrollRef = new Firebase.util.Scroll(postRef, '$priority');
         var _posts = $postArray(scrollRef);
         _posts.scroll = scrollRef.scroll;
         scrollRef.on('value', function (snap) {
             $log.debug('posts loaded');
             _posts.busy = false;
         });
-
-        // Load and apply my `likes`
-        var myLikeObj = LikeSrv.myLikeObj;
-        myLikeObj.$loaded().then(function () {
-            return _posts.$loaded();
-        }).then(function () {
-            var _p = null;
-            angular.forEach(myLikeObj, function(value, key) {
-                _p = _posts.$getRecord(key);
-                if (_p) {
-                    _p._likedByMe = new Boolean(value);
-                }
-            });
+        scrollRef.on('child_added', function (snap, prev) {
+            $log.debug(snap.val());
         });
 
-        function getPriority(post) {
-            return -moment(post.id).unix();
-        }
         return {
             posts: _posts,
             add: function (post) {
-                post.$priority = getPriority(post);
+                // priority 계산
+                post.$priority = -moment(post.id).unix();
+                
+                // Firebase에 추가
                 _posts.$add(post).then(function (rs) {
                     $log.debug("Add Post:", rs);
                 }, function (error) {
