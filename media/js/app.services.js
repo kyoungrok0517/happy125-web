@@ -1,17 +1,17 @@
 angular.module('app.services', [])
 
-    .factory('$scrollArray', function ($firebaseArray) {
-        return function (ref, field) {
-            // create a special scroll ref
-            var scrollRef = new Firebase.util.Scroll(ref, field);
-            // generate a synchronized array with the ref
-            var list = $firebaseArray(scrollRef);
-            // store the scroll namespace on the array for easy ref
-            list.scroll = scrollRef.scroll;
+    // .factory('$scrollArray', function ($firebaseArray) {
+    //     return function (ref, field) {
+    //         // create a special scroll ref
+    //         var scrollRef = new Firebase.util.Scroll(ref, field);
+    //         // generate a synchronized array with the ref
+    //         var list = $firebaseArray(scrollRef);
+    //         // store the scroll namespace on the array for easy ref
+    //         list.scroll = scrollRef.scroll;
 
-            return list;
-        }
-    })
+    //         return list;
+    //     }
+    // })
 
     .factory('TimeSrv', ['$log', function ($log) {
         moment.locale('ko');
@@ -47,25 +47,25 @@ angular.module('app.services', [])
         }
     }])
 
-    .factory("ListWithTotal", ["$firebaseArray",
-        function ($firebaseArray) {
-            // create a new service based on $firebaseArray
-            var ListWithTotal = $firebaseArray.$extend({
-                getTotal: function () {
-                    var total = 0;
-                    // the array data is located in this.$list
-                    angular.forEach(this.$list, function (rec) {
-                        total += rec.amount;
-                    });
-                    return total;
-                }
-            });
-            return function (listRef) {
-                // create an instance of ListWithTotal (the new operator is required)
-                return new ListWithTotal(listRef);
-            }
-        }
-    ])
+    // .factory("ListWithTotal", ["$firebaseArray",
+    //     function ($firebaseArray) {
+    //         // create a new service based on $firebaseArray
+    //         var ListWithTotal = $firebaseArray.$extend({
+    //             getTotal: function () {
+    //                 var total = 0;
+    //                 // the array data is located in this.$list
+    //                 angular.forEach(this.$list, function (rec) {
+    //                     total += rec.amount;
+    //                 });
+    //                 return total;
+    //             }
+    //         });
+    //         return function (listRef) {
+    //             // create an instance of ListWithTotal (the new operator is required)
+    //             return new ListWithTotal(listRef);
+    //         }
+    //     }
+    // ])
 
     .factory("$postArray", ["$log", "$firebaseArray", "$rootScope", "TimeSrv",
         function ($log, $firebaseArray, $rootScope, TimeSrv) {
