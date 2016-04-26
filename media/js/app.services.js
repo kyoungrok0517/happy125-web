@@ -116,13 +116,17 @@ angular.module('app.services', [])
             var myLikesRef = baseRef.child("likes/" + auth.uid);
             var p = null;
             var likeId = null;
+            var ILikedThis = false;
             scrollRef.on('child_added', function (snap, prev) {
                 myLikesRef.child(snap.key()).once('value', function (snap) {
-                    $rootScope.$apply(function () {
-                        likeId = snap.key();
-                        p = _posts.$getRecord(likeId);
-                        p._likedByMe = snap.val();
-                    });
+                    ILikedThis = snap.exists();
+                    if (ILikedThis) {
+                        $rootScope.$apply(function () {
+                            likeId = snap.key();
+                            p = _posts.$getRecord(likeId);
+                            p._likedByMe = snap.val();
+                        });
+                    }
                 });
             });
         }
