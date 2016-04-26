@@ -136,9 +136,9 @@ angular.module('app.services', [])
             // $log.debug(snap.val());
             _posts.busy = false;
         });
-        scrollRef.on('child_added', function (snap, prev) {
+        // scrollRef.on('child_added', function (snap, prev) {
             // $log.debug(snap.val());
-        });
+        // });
 
         return {
             posts: _posts,
