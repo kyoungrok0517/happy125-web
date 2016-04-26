@@ -124,7 +124,7 @@ angular.module('app.services', [])
         } else {
             postWithLikeRef = postRef;
         }
-
+ 
         // For debugging
         postWithLikeRef = postRef;
 
