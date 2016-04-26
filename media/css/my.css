@@ -28,7 +28,7 @@
     width: 100%;
 }
 
-/* Write 폼 */
+/* Write */
 
 .write-card > .mdl-card__supporting-text {
     padding: 0 !important;
@@ -51,6 +51,10 @@
 }
 
 /* Post */
+
+.post-card .mdl-card__supporting-text > p {
+    white-space: pre-wrap;
+}
 
 .post-card .mdl-card__title {
     flex-direction: column;
