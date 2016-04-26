@@ -99,15 +99,16 @@ angular.module('app.services', [])
 
     .factory("PostSrv", function ($log, $rootScope, $postArray, LikeSrv, TimeSrv, AuthSrv) {
         var baseRef = new Firebase("https://happy125.firebaseio.com");
+        var postRef = baseRef.child("/posts");
 
         // merge with `likes` array 
         // if the user is logged in 
         var auth = AuthSrv.getAuth();
-        var postRef = null;
+        var postWithLikeRef = null;
         if (auth) {
             var myLikesPath = "/likes/" + auth.uid;
-            postRef = new Firebase.util.NormalizedCollection(
-                baseRef.child("/posts"),
+            postWithLikeRef = new Firebase.util.NormalizedCollection(
+                postRef,
                 baseRef.child(myLikesPath)
             ).select(
                 "posts.ago",
@@ -121,42 +122,51 @@ angular.module('app.services', [])
                 { "key": auth.uid + ".$value", "alias": "_likedByMe" }
                 ).ref();
         } else {
-            postRef = baseRef.child("/posts");
+            postWithLikeRef = postRef;
         }
 
+        // For debugging
+        postWithLikeRef = postRef;
+
         // enable scroll
-        var scrollRef = new Firebase.util.Scroll(postRef, '$priority');
+        var scrollRef = new Firebase.util.Scroll(postWithLikeRef, '$priority');
         var _posts = $postArray(scrollRef);
         _posts.scroll = scrollRef.scroll;
         scrollRef.on('value', function (snap) {
-            $log.debug(snap.val());
+            // $log.debug(snap.val());
             _posts.busy = false;
         });
         scrollRef.on('child_added', function (snap, prev) {
             // $log.debug(snap.val());
         });
 
-        // var _vanillaPosts = $postArray(baseRef.child("/posts"));
         return {
             posts: _posts,
             add: function (post) {
                 // priority 계산
-                post.$priority = -moment(post.id).unix();
+                var priority = -moment(post.id).unix();
 
                 // Firebase에 추가
-                _posts.$add(post).then(function (rs) {
-                    $log.debug("Add Post:", rs);
-                }, function (error) {
-                    $log.error(error);
+                var newPostRef = postRef.push(post);
+                newPostRef.setWithPriority(post, priority, function (error) {
+                    if (error) {
+                        $log.error(error);
+                    }
                 });
+                // _posts.$add(post).then(function (rs) {
+                //     $log.debug("Add Post:", rs);
+                // }, function (error) {
+                //     $log.error(error);
+                // });
             },
             remove: function (post) {
                 var deletedPost = angular.copy(post);
-                _posts.$remove(post).then(function (rs) {
-                    $log.debug("Remove Post:", rs);
-                    LikeSrv.removeLike(deletedPost, $rootScope.currentAuth.uid);
-                }, function (error) {
-                    $log.error(error);
+                postRef.child(post.$id).remove(function (error) {
+                    if (error) {
+                        $log.error(error);
+                    } else {
+                        LikeSrv.removeLike(deletedPost, $rootScope.currentAuth.uid);
+                    }
                 });
             }
         }
