@@ -67,8 +67,9 @@ angular.module('app.services', [])
     //     }
     // ])
 
-    .factory("$postArray", ["$log", "$firebaseArray", "$rootScope", "TimeSrv",
-        function ($log, $firebaseArray, $rootScope, TimeSrv) {
+    .factory("$postArray", ["$log", "$firebaseArray", "AuthSrv", "TimeSrv",
+        function ($log, $firebaseArray, AuthSrv, TimeSrv) {
+            var currentAuth = AuthSrv.getAuth();
             var $postArray = $firebaseArray.$extend({
                 $$added: function (snapshot, prevChildKey) {
                     var post = snapshot.val();
@@ -80,7 +81,6 @@ angular.module('app.services', [])
                     post._ago = TimeSrv.getRelative(post.shared_at);
 
                     // set `isAuthor`
-                    var currentAuth = $rootScope.currentAuth;
                     if (currentAuth && post.uid === currentAuth.uid) {
                         post._isAuthor = true;
                     }
@@ -226,7 +226,7 @@ angular.module('app.services', [])
     .factory("AuthSrv", function ($log, $localStorage, $rootScope, $window, $firebaseAuth) {
         var _ref = new Firebase("https://happy125.firebaseio.com");
         var _authObject = $firebaseAuth(_ref);
-        var _currentAuth = $rootScope.currentAuth;
+        var _currentAuth = _ref.getAuth();
 
         function loginWithFacebook() {
             _ref.authWithOAuthRedirect("facebook", function (error, authData) {
