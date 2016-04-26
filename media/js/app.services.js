@@ -215,15 +215,7 @@ angular.module('app.services', [])
             return postUrl + "/" + post.$id + "/likes";
         }
 
-        // get my like object
-        var myLikeObj = null;
-        var myAuth = AuthSrv.getAuth();
-        if (myAuth) {
-            myLikeObj = $firebaseObject(likeRef.child(myAuth.uid));
-        }
-
         return {
-            myLikeObj: myLikeObj,
             like: like,
             unlike: unlike,
             removeLike: removeLike
