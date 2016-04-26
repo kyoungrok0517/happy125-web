@@ -106,7 +106,6 @@ angular.module('app.services', [])
         var postRef = null;
         if (auth) {
             var myLikesPath = "/likes/" + auth.uid;
-            $log.debug(myLikesPath);
             postRef = new Firebase.util.NormalizedCollection(
                 baseRef.child("/posts"),
                 baseRef.child(myLikesPath)
@@ -130,19 +129,20 @@ angular.module('app.services', [])
         var _posts = $postArray(scrollRef);
         _posts.scroll = scrollRef.scroll;
         scrollRef.on('value', function (snap) {
-            $log.debug('posts loaded');
+            $log.debug(snap.val());
             _posts.busy = false;
         });
         scrollRef.on('child_added', function (snap, prev) {
-            $log.debug(snap.val());
+            // $log.debug(snap.val());
         });
 
+        // var _vanillaPosts = $postArray(baseRef.child("/posts"));
         return {
             posts: _posts,
             add: function (post) {
                 // priority 계산
                 post.$priority = -moment(post.id).unix();
-                
+
                 // Firebase에 추가
                 _posts.$add(post).then(function (rs) {
                     $log.debug("Add Post:", rs);
