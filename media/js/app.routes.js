@@ -8,7 +8,9 @@ angular.module('app.routes', [])
                 template: '<ui-view/>',
                 controller: function ($rootScope, $log, currentAuth, AuthSrv) {
                     $rootScope.currentAuth = currentAuth;
-                    $log.debug("Logged in as:", currentAuth.uid);
+                    if (currentAuth) {
+                        $log.debug("Logged in as:", currentAuth.uid);
+                    }
                 },
                 resolve: {
                     currentAuth: ["AuthSrv", function (AuthSrv) {
@@ -16,12 +18,12 @@ angular.module('app.routes', [])
                     }]
                 }
             })
-            // .state('app.home', {
-            //     url: "/home",
-            //     templateUrl: "partials/home.html"
-            // })
-            // .state('app.about', {
-            //     url: "/about",
-            //     templateUrl: "partials/about.html"
-            // })
+        // .state('app.home', {
+        //     url: "/home",
+        //     templateUrl: "partials/home.html"
+        // })
+        // .state('app.about', {
+        //     url: "/about",
+        //     templateUrl: "partials/about.html"
+        // })
     })
