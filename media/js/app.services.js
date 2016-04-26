@@ -72,7 +72,7 @@ angular.module('app.services', [])
             var $postArray = $firebaseArray.$extend({
                 $$added: function (snapshot, prevChildKey) {
                     var post = snapshot.val();
-                    
+
                     // set `$id`
                     post.$id = snapshot.key();
 
@@ -97,36 +97,53 @@ angular.module('app.services', [])
         }
     ])
 
-    .factory("PostSrv", function ($log, $rootScope, $postArray, LikeSrv, TimeSrv) {
-        var baseRef = new Firebase("https://happy125.firebaseio.com/posts");
-        var scrollRef = new Firebase.util.Scroll(baseRef, '$priority');
+    .factory("PostSrv", function ($log, $rootScope, $postArray, LikeSrv, TimeSrv, AuthSrv) {
+        var baseRef = new Firebase("https://happy125.firebaseio.com");
+
+        // merge with `likes` array 
+        // if the user is logged in 
+        var auth = AuthSrv.getAuth();
+        var postRef = null;
+        if (auth) {
+            var myLikesPath = "/likes/" + auth.uid;
+            $log.debug(myLikesPath);
+            postRef = new Firebase.util.NormalizedCollection(
+                baseRef.child("/posts"),
+                baseRef.child(myLikesPath)
+            ).select(
+                "posts.ago",
+                "posts.author",
+                "posts.content",
+                "posts.email",
+                "posts.id",
+                "posts.likes",
+                "posts.shared_at",
+                "posts.uid",
+                { "key": auth.uid + ".$value", "alias": "_likedByMe" }
+                ).ref();
+        } else {
+            postRef = baseRef.child("/posts");
+        }
+
+        // enable scroll
+        var scrollRef = new Firebase.util.Scroll(postRef, '$priority');
         var _posts = $postArray(scrollRef);
         _posts.scroll = scrollRef.scroll;
         scrollRef.on('value', function (snap) {
             $log.debug('posts loaded');
-            
             _posts.busy = false;
         });
+        scrollRef.on('child_added', function (snap, prev) {
+            $log.debug(snap.val());
+        });
 
-        // Load and apply my `likes`
-        // var likeObject = LikeSrv.getMyLikeObject($rootScope.currentAuth.uid);
-        // likeObject.$loaded().then(function (data) {
-        //     var post = null;
-        //     angular.forEach(data, function (value, key) {
-        //         post = _posts.$getRecord(key);
-        //         if (post) {
-        //             post._likedByMe = new Boolean(value);
-        //         }
-        //     })
-        // }, function (error) { });
-
-        function getPriority(post) {
-            return -moment(post.id).unix();
-        }
         return {
             posts: _posts,
             add: function (post) {
-                post.$priority = getPriority(post);
+                // priority 계산
+                post.$priority = -moment(post.id).unix();
+                
+                // Firebase에 추가
                 _posts.$add(post).then(function (rs) {
                     $log.debug("Add Post:", rs);
                 }, function (error) {
@@ -146,7 +163,7 @@ angular.module('app.services', [])
     })
 
 
-    .factory("LikeSrv", function ($log, $firebaseArray, $firebaseObject, $rootScope) {
+    .factory("LikeSrv", function ($log, $firebaseArray, $firebaseObject, $rootScope, AuthSrv) {
         var likeUrl = "https://happy125.firebaseio.com/likes",
             likeRef = new Firebase(likeUrl),
             postUrl = "https://happy125.firebaseio.com/posts",
@@ -198,15 +215,18 @@ angular.module('app.services', [])
             return postUrl + "/" + post.$id + "/likes";
         }
 
-        function getMyLikeObject(uid) {
-            return $firebaseObject(likeRef.child(uid));
+        // get my like object
+        var myLikeObj = null;
+        var myAuth = AuthSrv.getAuth();
+        if (myAuth) {
+            myLikeObj = $firebaseObject(likeRef.child(myAuth.uid));
         }
 
         return {
+            myLikeObj: myLikeObj,
             like: like,
             unlike: unlike,
-            removeLike: removeLike,
-            getMyLikeObject: getMyLikeObject
+            removeLike: removeLike
         };
     })
 
@@ -257,11 +277,15 @@ angular.module('app.services', [])
         }
 
         return {
+            authRef: _ref,
             authObject: _authObject,
             loginWithFacebook: loginWithFacebook,
             loginWithEmail: loginWithEmail,
             logout: logout,
             registerWithEmail: registerWithEmail,
+            getAuth: function () {
+                return _ref.getAuth();
+            },
             getUid: function () {
                 if (_currentAuth) {
                     return _currentAuth.uid || null;

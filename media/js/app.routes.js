@@ -8,7 +8,7 @@ angular.module('app.routes', [])
                 template: '<ui-view/>',
                 controller: function ($rootScope, $log, currentAuth, AuthSrv) {
                     $rootScope.currentAuth = currentAuth;
-                    $log.debug(currentAuth);
+                    $log.debug("Logged in as:", currentAuth.uid);
                 },
                 resolve: {
                     currentAuth: ["AuthSrv", function (AuthSrv) {
