@@ -124,7 +124,11 @@ angular.module('app.services', [])
                         $rootScope.$apply(function () {
                             likeId = snap.key();
                             p = _posts.$getRecord(likeId);
-                            p._likedByMe = snap.val();
+                            if (p) {
+                                p._likedByMe = snap.val();
+                            } else {
+                                $log.error('Unable to get my `liked` post:', likeId);
+                            }
                         });
                     }
                 });
