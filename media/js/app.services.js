@@ -86,9 +86,9 @@ angular.module('app.services', [])
                     }
 
                     // if only email exists, show only the id
-                    if (post.email && !post.author) {
-                        post.author = post.email.split('@')[0];
-                    }
+                    // if (!post.author && post.email) {
+                    //     post.author = post.email.split('@')[0];
+                    // }
 
                     return post;
                 },
